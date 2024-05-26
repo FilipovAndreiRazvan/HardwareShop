@@ -1,0 +1,90 @@
+﻿@model List<HardwareShop.Models.PlacutaRAM>
+@{
+    ViewBag.Title = "Index";
+}
+<link rel="stylesheet" href="~/Content/IndexCategorie.css" type="text/css" />
+<h2 class="titlu">Placute RAM</h2>
+@if (User.IsInRole("Furnizor"))
+{
+    @Html.ActionLink("Adauga produs", "Adauga", "PlacuteRAM", new { @class = "adaugaProdus" });
+}
+<main>
+    @foreach (var placuta in Model)
+    {
+        var pretIntreg = (int)placuta.Pret;
+        var pretDecimal = (int)((placuta.Pret - Math.Floor(placuta.Pret)) * 100);
+
+        <div class="produs">
+            <div class="img">
+                <img src="~/@placuta.imgLink" />
+            </div>
+            <div class="text">
+                <div class="titlu-favorit">
+                    <h1>@Html.ActionLink(placuta.Nume, "Vizualizare", "PlacuteRAM", new { id = placuta.Id }, null)</h1>
+                    @if (User.IsInRole("Furnizor") == false && User.IsInRole("Admin") == false)
+                    {
+                        <div class="adaugaFavorit">
+                            @if (User.Identity.Name == "")
+                            {
+                                placuta.produsFavorit = false;
+                            }
+                            @if (placuta.produsFavorit == false)
+                            {
+                                <a href="@Url.Action("Adauga", "ListaFavorite", new { id = placuta.Id, categorie = "placuteRAM" }, null)">
+                                    <img src="~/Imagini/heart.png" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Sterge", "ListaFavorite", new { id = placuta.Id, categorie = "placuteRAM" }, null)">
+                                    <img src="~/Imagini/heartRed.png" />
+                                </a>
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="detalii">
+                    <ul>
+                        <li>Tip placuta:@placuta.tip</li>
+                        <li>Capacitate:@placuta.capacitate</li>
+                        <li>Frecventa:@placuta.frecventa</li>
+                    </ul>
+                    <ul>
+                        <li>Module:@placuta.module</li>
+                        @if (User.IsInRole("Furnizor"))
+                        {
+                            <li>Stoc:@placuta.stoc buc</li>
+                        }
+                    </ul>
+                </div>
+                <div class="cumpara">
+                    <p class="pret">
+                        @pretIntreg
+                        @if (pretDecimal > 0)
+                        {
+                            <sup>@pretDecimal</sup>
+                        }
+                        Lei
+                    </p>
+                    @if (User.IsInRole("Furnizor"))
+                    {
+                        <a class="stergeProdus" href="@Url.Action("Sterge","PlacuteRAM",new {id = placuta.Id})">Sterge</a>
+
+                    }
+                    else
+                    {
+                        if (placuta.stoc > 0)
+                        {
+                            <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {id = placuta.Id,categorie = "placuteRAM",nrBuc = 1})">Adauga in cos</a>
+                        }
+                        else
+                        {
+                            <p class="stocEpuizat">Stoc epuizat</p>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</main>
+

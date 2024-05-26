@@ -1,0 +1,89 @@
+﻿@model List<HardwareShop.Models.GPU>
+
+<link rel="stylesheet" href="~/Content/IndexCategorie.css" type="text/css" />
+<h2 class="titlu">Placi video</h2>
+@if (User.IsInRole("Furnizor"))
+{
+    @Html.ActionLink("Adauga produs", "Adauga", "Carcase", new { @class = "adaugaProdus" });
+}
+<main>
+    @foreach (var placaVideo in Model)
+    {
+        var pretIntreg = (int)placaVideo.Pret;
+        var pretDecimal = (int)((placaVideo.Pret - Math.Floor(placaVideo.Pret)) * 100);
+        <div class="produs">
+            <div class="img">
+                <img src="~/@placaVideo.imgLink" />
+            </div>
+            <div class="text">
+                <div class="titlu-favorit">
+                    <h1>@Html.ActionLink(placaVideo.Nume, "Vizualizare", "PlaciVideo", new { id = placaVideo.Id }, null)</h1>
+                    @if (User.IsInRole("Furnizor") == false && User.IsInRole("Admin") == false)
+                    {
+                        <div class="adaugaFavorit">
+                            @if (User.Identity.Name == "")
+                            {
+                                placaVideo.produsFavorit = false;
+                            }
+                            @if (placaVideo.produsFavorit == false)
+                            {
+                                <a href="@Url.Action("Adauga", "ListaFavorite", new { id = placaVideo.Id, categorie = "placiVideo" }, null)">
+                                    <img src="~/Imagini/heart.png" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Sterge", "ListaFavorite", new { id = placaVideo.Id, categorie = "placiVideo" }, null)">
+                                    <img src="~/Imagini/heartRed.png" />
+                                </a>
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="detalii">
+                    <ul>
+                        <li>Capacitate memorie:@placaVideo.CapacitateMemorie</li>
+                        <li>Frecventa memorie:@placaVideo.FrecventaMemorie</li>
+                    </ul>
+                    <ul>
+                        <li>Rezolutie maxima:@placaVideo.RezolutieMaxima</li>
+                        <li>
+                            Sistem de racire:
+                            <br />@placaVideo.SistemRacire
+                        </li>
+                        @if (User.IsInRole("Furnizor"))
+                        {
+                            <li>Stoc: @placaVideo.stoc buc</li>
+                        }
+                    </ul>
+                </div>
+                <div class="cumpara">
+                    <p class="pret">
+                        @pretIntreg
+                        @if (pretDecimal > 0)
+                        {
+                            <sup>@pretDecimal</sup>
+                        }
+                        Lei
+                    </p>
+                    @if (User.IsInRole("Furnizor"))
+                    {
+                        <a class="stergeProdus" href="@Url.Action("Sterge","PlaciVideo",new {id = placaVideo.Id})">Sterge</a>
+
+                    }
+                    else
+                    {
+                        if (placaVideo.stoc > 0)
+                        {
+                            <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {id = placaVideo.Id,categorie = "placiVideo",nrBuc = 1})">Adauga in cos</a>
+                        }
+                        else
+                        {
+                            <p class="stocEpuizat">Stoc epuizat</p>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</main>

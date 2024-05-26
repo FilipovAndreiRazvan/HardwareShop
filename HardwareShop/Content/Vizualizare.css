@@ -1,0 +1,114 @@
+﻿
+.produs {
+    width: 85%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: row;
+    background-color:white;
+    padding:40px 0;
+}
+.produseCos {
+    position: absolute;
+    right: 0;
+    background-color:red;
+    z-index: 3;
+    opacity: 0;
+    display: block;
+    background-color: rgb(33, 37, 41);
+    width: auto;
+    border-radius: 30px;
+    padding: 10px;
+    color: white;
+    text-align: center;
+    transition: opacity 4s;
+}
+img {
+    width: 500px;
+}
+
+.imagine {
+    padding: 40px;
+    height: 600px;
+}
+
+.comanda {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.pretTotal {
+    text-align: left;
+}
+
+input {
+    width: 50px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.text {
+    width: 45%;
+    margin: 0 auto;
+}
+
+.specificatii {
+    display: flex;
+    flex-direction: row;
+}
+
+#wrongInput {
+    opacity: 0;
+    display: block;
+    color: white;
+    font-size: 20px;
+    border-radius: 10px;
+    background-color: red;
+    z-index: 1;
+    position: relative;
+    right: 40px;
+    transition: opacity 1s;
+}
+
+.pretBuc, .pretTotal {
+    width: 50%;
+}
+
+.disponibil {
+    color: green;
+}
+
+.indisponibil {
+    color: red
+}
+.brand{
+    color:black;
+}
+.text h3,.descriere h2,.text h4{
+    color: orangered;
+}
+.pretBuc, .pretTotal {
+    font-size: 20px;
+}
+body {
+    background-color: #f2f2f7;
+}
+.adaugaProdus {
+    width: 50%;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    background: #71c16a url("/Imagini/cart.svg") no-repeat 5px center;
+    background-size: 20px;
+    padding: 8px 25px;
+    padding-left: 35px;
+    transition: background-color 0.5s;
+    font-size: 18px;
+}
+
+
+
+    .adaugaProdus:hover {
+        color: white;
+        background-color: orangered;
+    }

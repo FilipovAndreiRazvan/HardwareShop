@@ -1,0 +1,93 @@
+﻿@model List<HardwareShop.Models.UnitatiDeStocare>
+@{
+    ViewBag.Title = "Index";
+}
+<link rel="stylesheet" href="~/Content/IndexCategorie.css" type="text/css" />
+<h2 class="titlu">Unitati de stocare</h2>
+@if (User.IsInRole("Furnizor"))
+{
+    @Html.ActionLink("Adauga produs", "Adauga", "UnitatiStocare", new { @class = "adaugaProdus" });
+}
+<main>
+    @foreach (var stocare in Model)
+    {
+
+        var pretIntreg = (int)stocare.Pret;
+        var pretDecimal = (int)((stocare.Pret - Math.Floor(stocare.Pret)) * 100);
+
+        <div class="produs">
+            <div class="img">
+                <img src="~/@stocare.imgLink" />
+            </div>
+            <div class="text">
+                <div class="titlu-favorit">
+                    <h1>@Html.ActionLink(stocare.Nume, "Vizualizare", "UnitatiStocare", new { id = stocare.Id }, null)</h1>
+                    @if (User.IsInRole("Furnizor") == false && User.IsInRole("Admin") == false)
+                    {
+                        <div class="adaugaFavorit">
+                            @if (User.Identity.Name == "")
+                            {
+                                stocare.produsFavorit = false;
+                            }
+                            @if (stocare.produsFavorit == false)
+                            {
+                                <a href="@Url.Action("Adauga", "ListaFavorite", new { id = stocare.Id, categorie = "unitatiDeStocare" }, null)">
+                                    <img src="~/Imagini/heart.png" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Sterge", "ListaFavorite", new { id = stocare.Id, categorie = "unitatiDeStocare" }, null)">
+                                    <img src="~/Imagini/heartRed.png" />
+                                </a>
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="detalii">
+                    <ul>
+                        <li>Form factor:@stocare.formFactor</li>
+                        <li>Capacitate:@stocare.capacitate</li>
+                        <li>Tip memorie:@stocare.tipMemorie</li>
+                    </ul>
+                    <ul>
+                        <li>Rata de transfer la citire:@stocare.rataTransferCitire</li>
+                        <li>Rata de transfer la scriere:@stocare.rataTransferScriere</li>
+                        @if (User.IsInRole("Furnizor"))
+                        {
+                            <li>Stoc:@stocare.stoc buc</li>
+                        }
+                    </ul>
+                </div>
+                <div class="cumpara">
+                    <p class="pret">
+                        @pretIntreg
+                        @if (pretDecimal > 0)
+                        {
+                            <sup>@pretDecimal</sup>
+                        }
+                        Lei
+                    </p>
+                    @if (User.IsInRole("Furnizor"))
+                    {
+                        <a class="stergeProdus" href="@Url.Action("Sterge","UnitatiStocare",new {id = stocare.Id})">Sterge</a>
+
+                    }
+                    else
+                    {
+                        if (stocare.stoc > 0)
+                        {
+                            <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {id = stocare.Id,categorie = "unitatiDeStocare",nrBuc = 1})">Adauga in cos</a>
+                        }
+                        else
+                        {
+                            <p class="stocEpuizat">Stoc epuizat</p>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    }
+</main>
+

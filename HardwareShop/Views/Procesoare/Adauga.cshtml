@@ -1,0 +1,99 @@
+﻿
+@model HardwareShop.Models.CPU
+@{
+    ViewBag.Title = "Adauga produs";
+}
+
+<link rel="stylesheet" href="~/Content/AdaugaProdus.css" type="text/css" />
+<main aria-labelledby="title">
+    <h2 id="title">@ViewBag.Title</h2>
+    @using (Html.BeginForm("Salvare", "Procesoare", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+    {
+        @Html.ValidationSummary(true, "Please fix the following errors.")
+        <div class="fields">
+            <div class="field">
+                @Html.LabelFor(m => m.Nume, new { @class = "col-form-label" })
+                <div class="input">
+                    @Html.TextBoxFor(m => m.Nume, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Nume, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="field">
+                @Html.LabelFor(m => m.Pret, new { @class = "col-form-label" })
+                <div class="input">
+                    @Html.TextBoxFor(m => m.Pret, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Pret, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="field">
+                @Html.LabelFor(m => m.frecventaBaza, new { @class = "col-form-label" })
+                <div class="input">
+                    @Html.TextBoxFor(m => m.frecventaBaza, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.frecventaBaza, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="field">
+                @Html.LabelFor(m => m.frecventaTurbo, new { @class = "col-form-label" })
+                <div class="input">
+                    @Html.TextBoxFor(m => m.frecventaTurbo, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.frecventaTurbo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="field">
+                @Html.LabelFor(m => m.nrNuclee, new { @class = " col-form-label" })
+                <div class="input">
+                    @Html.TextBoxFor(m => m.nrNuclee, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.nrNuclee, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="field">
+                @Html.LabelFor(m => m.nrThreads, new { @class = "col-form-label" })
+                <div class="input">
+                    @Html.TextBoxFor(m => m.nrThreads, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.nrThreads, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="field">
+                @Html.LabelFor(m => m.putereTermica, new { @class = "col-form-label" })
+                <div class="input">
+                    @Html.TextBoxFor(m => m.putereTermica, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.putereTermica, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="field">
+                @Html.LabelFor(m => m.socket, new { @class = "col-form-label" })
+                <div class="input">
+                    @Html.TextBoxFor(m => m.socket, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.socket, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="field">
+                @Html.LabelFor(m => m.stoc, new { @class = "col-form-label" })
+                <div class="input">
+                    @Html.TextBoxFor(m => m.stoc, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.stoc, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="field">
+                @Html.LabelFor(m => m.Descriere, new { @class = "col-form-label" })
+                <div class="input">
+                    @Html.TextBoxFor(m => m.Descriere, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Descriere, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="field">
+                @Html.LabelFor(m => m.imgLink, new { @class = "col-form-label" })
+                <div class="input">
+                    @Html.TextBoxFor(m => m.imgLink, new { type = "file", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.stoc, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="button">
+            <input type="submit" value="Adauga" class=" submit btn btn-outline-dark" />
+        </div>
+    }
+</main>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,92 @@
+﻿@model List<HardwareShop.Models.PSU>
+@{
+    ViewBag.Title = "Index";
+}
+<link rel="stylesheet" href="~/Content/IndexCategorie.css" type="text/css" />
+<h2 class="titlu">Surse de alimentare</h2>
+@if (User.IsInRole("Furnizor"))
+{
+    @Html.ActionLink("Adauga produs", "Adauga", "SurseDeAlimentare", new { @class = "adaugaProdus" });
+}
+<main>
+    @foreach (var sursa in Model)
+    {
+        var pretIntreg = (int)sursa.Pret;
+        var pretDecimal = (int)((sursa.Pret - Math.Floor(sursa.Pret)) * 100);
+
+        <div class="produs">
+            <div class="img">
+                <img src="~/@sursa.imgLink" />
+            </div>
+            <div class="text">
+                <div class="titlu-favorit">
+                    <h1>@Html.ActionLink(sursa.Nume, "Vizualizare", "SurseDeAlimentare", new { id = sursa.Id }, null)</h1>
+                    @if (User.IsInRole("Furnizor") == false && User.IsInRole("Admin") == false)
+                    {
+                        <div class="adaugaFavorit">
+                            @if (User.Identity.Name == "")
+                            {
+                                sursa.produsFavorit = false;
+                            }
+                            @if (sursa.produsFavorit == false)
+                            {
+                                <a href="@Url.Action("Adauga", "ListaFavorite", new { id = sursa.Id, categorie = "surseDeAlimentare" }, null)">
+                                    <img src="~/Imagini/heart.png" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Sterge", "ListaFavorite", new { id = sursa.Id, categorie = "surseDeAlimentare" }, null)">
+                                    <img src="~/Imagini/heartRed.png" />
+                                </a>
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="detalii">
+                    <ul>
+                        <li>Putere:@sursa.putere</li>
+                        <li>Numar ventilatoare:@sursa.nrVentilatoare</li>
+                        <li>Alimentare:@sursa.alimentare</li>
+                    </ul>
+                    <ul>
+                        <li>Format:@sursa.format</li>
+                        <li>Greutate:@sursa.greutate Kg</li>
+                        @if (User.IsInRole("Furnizor"))
+                        {
+                            <li>Stoc:@sursa.stoc buc</li>
+                        }
+                    </ul>
+                </div>
+                <div class="cumpara">
+                    <p class="pret">
+                        @pretIntreg
+                        @if (pretDecimal > 0)
+                        {
+                            <sup>@pretDecimal</sup>
+                        }
+                        Lei
+                    </p>
+                    @if (User.IsInRole("Furnizor"))
+                    {
+                        <a class="stergeProdus" href="@Url.Action("Sterge","SurseDeAlimentare",new {id = sursa.Id})">Sterge</a>
+
+                    }
+                    else
+                    {
+                        if (sursa.stoc > 0)
+                        {
+                            <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {id = sursa.Id,categorie = "surseDeAlimentare",nrBuc = 1})">Adauga in cos</a>
+                        }
+                        else
+                        {
+                            <p class="stocEpuizat">Stoc epuizat</p>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</main>
+
+

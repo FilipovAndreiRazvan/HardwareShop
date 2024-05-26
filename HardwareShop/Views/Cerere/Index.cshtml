@@ -1,0 +1,122 @@
+﻿@model HardwareShop.Models.Cerere
+@{
+    ViewBag.Title = "Cerere";
+}
+<link rel="stylesheet" href="~/Content/LoginRegister.css" type="text/css" />
+<style>
+    .produseCheckboxes {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+</style>
+<main aria-labelledby="title">
+    <h2 id="title">@ViewBag.Title</h2>
+    <div class="form">
+        @using (Html.BeginForm("Salvare", "Cerere", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+        {
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            if(Model.tipCerere == "Furnizor nou")
+            {
+                <div class="field">
+                    @Html.LabelFor(m => m.Oras, new { @class = "col-md-2 col-form-label" })
+                    <div class="input">
+                        @Html.TextBoxFor(m => m.Oras, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Oras, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="field">
+                    @Html.LabelFor(m => m.CUI, new { @class = "col-md-2 col-form-label" })
+                    <div class="input">
+                        @Html.TextBoxFor(m => m.CUI, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.CUI, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="field">
+                    @Html.LabelFor(m => m.Brand, new { @class = "col-md-2 col-form-label" })
+                    <div class="input">
+                        @Html.TextBoxFor(m => m.Brand, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Brand, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+
+            <div class="field">
+                <p>Produse vandute:</p>
+            </div>
+            <div class="produseCheckboxes">
+                <div class="field">
+                    <div class="offset-md-2 col-md-10">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.Carcase)
+                            @Html.LabelFor(m => m.Carcase)
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="offset-md-2 col-md-10">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.placiDeBaza)
+                            @Html.LabelFor(m => m.placiDeBaza)
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="offset-md-2 col-md-10">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.procesoare)
+                            @Html.LabelFor(m => m.procesoare)
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="offset-md-2 col-md-10">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.placiVideo)
+                            @Html.LabelFor(m => m.placiVideo)
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="offset-md-2 col-md-10">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.placuteRAM)
+                            @Html.LabelFor(m => m.placuteRAM)
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="offset-md-2 col-md-10">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.unitatiDeStocare)
+                            @Html.LabelFor(m => m.unitatiDeStocare)
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="offset-md-2 col-md-10">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.surse)
+                            @Html.LabelFor(m => m.surse)
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="offset-md-2 col-md-10">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.pastaProcesor)
+                            @Html.LabelFor(m => m.pastaProcesor)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <input type="submit" value="Trimite" class=" submit btn btn-outline-dark" />
+            </div>
+        }
+    </div>
+</main>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

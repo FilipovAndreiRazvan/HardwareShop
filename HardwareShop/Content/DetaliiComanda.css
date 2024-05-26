@@ -1,0 +1,21 @@
+﻿main{
+    width:45%;
+    margin:0 auto;
+}
+.comanda > h2{
+    margin-top:40px;
+}
+.livrare {
+    background-color: #1AEFEA;
+    padding: 50px;
+}
+.livrare h3{
+    display:block;
+}
+.divAdresaLivrare{
+    background-color:white;
+    padding:30px;
+}
+.livrareCheck{
+    display:inline-block;
+}

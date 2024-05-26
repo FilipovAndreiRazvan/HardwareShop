@@ -1,0 +1,88 @@
+﻿@model HardwareShop.Models.PlacutaRAM
+@{
+    ViewBag.Title = "Adauga produs";
+}
+<link rel="stylesheet" href="~/Content/AdaugaProdus.css" type="text/css" />
+<style>
+    .fields {
+        grid-template-columns: auto auto auto;
+    }
+</style>
+<main aria-labelledby="title">
+    <h2 id="title">@ViewBag.Title</h2>
+    @using (Html.BeginForm("Salvare", "PlacuteRAM", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+    {
+        @Html.ValidationSummary(true, "Please fix the following errors.")
+<div class="fields">
+    <div class="field">
+        @Html.LabelFor(m => m.Nume, new { @class = "col-form-label" })
+        <div class="input">
+            @Html.TextBoxFor(m => m.Nume, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Nume, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="field">
+        @Html.LabelFor(m => m.Pret, new { @class = "col-form-label" })
+        <div class="input">
+            @Html.TextBoxFor(m => m.Pret, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Pret, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="field">
+        @Html.LabelFor(m => m.tip, new { @class = "col-form-label" })
+        <div class="input">
+            @Html.TextBoxFor(m => m.tip, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.tip, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="field">
+        @Html.LabelFor(m => m.capacitate, new { @class = "col-form-label" })
+        <div class="input">
+            @Html.TextBoxFor(m => m.capacitate, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.capacitate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="field">
+        @Html.LabelFor(m => m.frecventa, new { @class = "col-form-label" })
+        <div class="input">
+            @Html.TextBoxFor(m => m.frecventa, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.frecventa, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="field">
+        @Html.LabelFor(m => m.module, new { @class = "col-form-label" })
+        <div class="input">
+            @Html.TextBoxFor(m => m.module, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.module, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="field">
+        @Html.LabelFor(m => m.Descriere, new { @class = "col-form-label" })
+        <div class="input">
+            @Html.TextBoxFor(m => m.Descriere, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Descriere, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="field">
+        @Html.LabelFor(m => m.stoc, new { @class = "col-form-label" })
+        <div class="input">
+            @Html.TextBoxFor(m => m.stoc, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.stoc, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="field">
+        @Html.LabelFor(m => m.imgLink, new { @class = "col-form-label" })
+        <div class="input">
+            @Html.TextBoxFor(m => m.imgLink, new { type = "file", @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.stoc, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="button" style=" grid-row-start: 4; grid-row-end: 5; grid-column-start:2;grid-column-end:3">
+        <input type="submit" value="Adauga" class=" submit btn btn-outline-dark" />
+    </div>
+</div>
+    }
+</main>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,119 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@model HardwareShop.Models.AdaugaProdus
+<link rel="stylesheet" href="~/Content/HomePage.css" type="text/css" />
+<main class="main">
+    @if (Model.cosCumparaturi == true)
+    {
+        <p class="produsAdaugat">Produsele au fost adaugate in cos</p>
+    }
+    @if (Model.listaFavorite == true)
+    {
+        <p class="produsAdaugat">Produsul a fost adaugat in lista de favorite</p>
+    }
+    @if (User.IsInRole("Furnizor"))
+    {
+        <h1>Produsele mele</h1>
+    }
+    else
+    {
+        <h1>Colectii</h1>
+    }
+
+    <div class="produse">
+        @if ((Model.cerere != null && Model.cerere.Carcase == true) || Model.cerere == null)
+        {
+            <a href="@Url.Action("Index", "Carcase")" class="produs">
+                <img src="~/Imagini/carcasa.jpeg" />
+                <div class="text">
+                    <h3>Carcase</h3>
+                </div>
+            </a>
+        }
+
+
+        @if ((Model.cerere != null && Model.cerere.placiDeBaza == true) || Model.cerere == null)
+        {
+            <a href="@Url.Action("Index", "PlaciDeBaza")" class="produs">
+                <img src="~/Imagini/placaDeBaza.jpeg" />
+                <div class="text">
+                    <h3>Placi de baza</h3>
+                </div>
+            </a>
+        }
+
+        @if ((Model.cerere != null && Model.cerere.procesoare == true) || Model.cerere == null)
+        {
+            <a href="@Url.Action("Index", "Procesoare")" class="produs">
+                <img src="~/Imagini/procesor.jpeg" />
+                <div class="text">
+                    <h3>Procesoare</h3>
+                </div>
+            </a>
+        }
+
+        @if ((Model.cerere != null && Model.cerere.placiVideo == true) || Model.cerere == null)
+        {
+            <a href="@Url.Action("Index", "PlaciVideo")" class="produs">
+                <img src="~/Imagini/placaVideo.jpeg" />
+                <div class="text">
+                    <h3>Placi video</h3>
+                </div>
+            </a>
+        }
+
+        @if ((Model.cerere != null && Model.cerere.placuteRAM == true) || Model.cerere == null)
+        {
+            <a href="@Url.Action("Index", "PlacuteRAM")" class="produs">
+                <img src="~/Imagini/memorieRAM.jpeg" />
+                <div class="text">
+                    <h3>Placute RAM</h3>
+                </div>
+            </a>
+        }
+
+        @if ((Model.cerere != null && Model.cerere.unitatiDeStocare == true) || Model.cerere == null)
+        {
+            <a href="@Url.Action("Index", "UnitatiStocare")" class="produs">
+                <img src="~/Imagini/unitatiDeStocare.jpeg" />
+                <div class="text">
+                    <h3>Unitati de stocare</h3>
+                </div>
+            </a>
+        }
+
+        @if ((Model.cerere != null && Model.cerere.surse == true) || Model.cerere == null)
+        {
+            <a href="@Url.Action("Index", "SurseDeAlimentare")" class="produs">
+                <img src="~/Imagini/sursa.jpeg" />
+                <div class="text">
+                    <h3>Surse de alimentare</h3>
+                </div>
+            </a>
+        }
+
+        @if ((Model.cerere != null && Model.cerere.pastaProcesor == true) || Model.cerere == null)
+        {
+            <a href="@Url.Action("Index", "PastaProcesor")" class="produs">
+                <img src="~/Imagini/pastaProcesor.jpeg" />
+                <div class="text">
+                    <h3>Pasta procesor</h3>
+                </div>
+            </a>
+        }
+
+    </div>
+    @if (Model.cerere != null)
+    {
+        <p>Doresti sa modifici produsele?@Html.ActionLink("Apasa aici", "Index", "Cerere", new { tipCerere = "Modificare produse" },null)</p>
+    }
+</main>
+<script>
+    window.addEventListener('load', function () {
+        setTimeout(function () {
+            document.getElementsByClassName("produsAdaugat")[0].style.opacity = 0;
+        }, 1000);
+    });
+
+</script>

@@ -1,0 +1,333 @@
+﻿@model HardwareShop.Models.CosCumparaturi
+@{
+    double pretTotal = 0;
+}
+<link rel="stylesheet" href="~/Content/CosCumparaturi.css" type="text/css" />
+<h1 class="title">Cosul meu</h1>
+<main>
+    @if (Model.Id == 0)
+    {
+        <p class="cosGol">
+            <span>
+                <img src="~/Imagini/info.png" />Cosul tau de cumparaturi nu contine produse. Pentru a adauga produse in cos te rugam
+                <a href="@Url.Action("Index","Home")">sa te intorci in magazin</a>.
+            </span>
+            <span class="delete" onclick="stergeMesaj()"><img src="~/Imagini/delete.png"></span>
+        </p>
+    }
+    else
+    {
+        <div class="produse">
+            @if (Model.carcase.Count > 0)
+            {
+
+                foreach (var carcasa in Model.carcase)
+                {
+                    pretTotal += carcasa.Pret;
+                    var pretInt = (int)carcasa.Pret;
+                    var pretDec = (int)((carcasa.Pret - Math.Floor(carcasa.Pret)) * 100);
+
+                    <div class="produs">
+                        <div class="img">
+                            <img src="~/@carcasa.imgLink" />
+                        </div>
+                        <div class="text">
+                            <h1>@Html.ActionLink(carcasa.Nume, "Vizualizare", "Carcase", new { id = carcasa.Id }, null)</h1>
+                            <div class="detalii">
+                                <p>Vandut de :HardwareShop</p>
+                            </div>
+                            <div class="cumpara">
+                                <p class="pret">
+                                    @pretInt
+                                    @if (pretDec > 0)
+                                    {
+                                        <sup>@pretDec</sup>
+                                    }
+                                    Lei
+                                </p>
+                                <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {id = carcasa.Id,categorie = "carcase",nrBuc = 1})">Stergere produs</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                }
+            }
+            @if (Model.motherboard.Count > 0)
+            {
+                foreach (var motherboard in Model.motherboard)
+                {
+                    pretTotal += motherboard.Pret;
+                    var pretInt = (int)motherboard.Pret;
+                    var pretDec = (int)((motherboard.Pret - Math.Floor(motherboard.Pret)) * 100);
+                    <div class="produs">
+                        <div class="img">
+                            <img src="~/@motherboard.imgLink" />
+                        </div>
+                        <div class="text">
+                            <h1>@Html.ActionLink(motherboard.Nume, "Vizualizare", "PlaciDeBaza", new { id = motherboard.Id }, null)</h1>
+                            <div class="detalii">
+                                <p>Vandut de :HardwareShop</p>
+                            </div>
+                            <div class="cumpara">
+                                <p class="pret">
+                                    @pretInt
+                                    @if (pretDec > 0)
+                                    {
+                                        <sup>@pretDec</sup>
+                                    }
+                                    Lei
+                                </p>
+                                <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {id = motherboard.Id,categorie = "placiDeBaza",nrBuc = 1})">Stergere produs</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            @if (Model.cpu.Count > 0)
+            {
+                foreach (var procesor in Model.cpu)
+                {
+                    pretTotal += procesor.Pret;
+                    var pretInt = (int)procesor.Pret;
+                    var pretDec = (int)((procesor.Pret - Math.Floor(procesor.Pret)) * 100);
+
+                    <div class="produs">
+                        <div class="img">
+                            <img src="~/@procesor.imgLink" />
+                        </div>
+                        <div class="text">
+                            <h1>@Html.ActionLink(procesor.Nume, "Vizualizare", "Procesoare", new { id = procesor.Id }, null)</h1>
+                            <div class="detalii">
+                                <p>Vandut de :HardwareShop</p>
+                            </div>
+                            <div class="cumpara">
+                                <p class="pret">
+                                    @pretInt
+                                    @if (pretDec > 0)
+                                    {
+                                        <sup>@pretDec</sup>
+                                    }
+                                    Lei
+                                </p>
+                                <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {id = procesor.Id,categorie = "procesoare",nrBuc = 1})">Stergere produs</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            @if (Model.gpu.Count > 0)
+            {
+                foreach (var placaVideo in Model.gpu)
+                {
+                    pretTotal += placaVideo.Pret;
+                    var pretInt = (int)placaVideo.Pret;
+                    var pretDec = (int)((placaVideo.Pret - Math.Floor(placaVideo.Pret)) * 100);
+
+                    <div class="produs">
+                        <div class="img">
+                            <img src="~/@placaVideo.imgLink" />
+                        </div>
+                        <div class="text">
+                            <h1>@Html.ActionLink(placaVideo.Nume, "Vizualizare", "PlaciVideo", new { id = placaVideo.Id }, null)</h1>
+                            <div class="detalii">
+                                <p>Vandut de :HardwareShop</p>
+                            </div>
+                            <div class="cumpara">
+                                <p class="pret">
+                                    @pretInt
+                                    @if (pretDec > 0)
+                                    {
+                                        <sup>@pretDec</sup>
+                                    }
+                                    Lei
+                                </p>
+                                <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {id = placaVideo.Id,categorie = "placiVideo",nrBuc = 1})">Stergere produs</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            @if (Model.placuteRAM.Count > 0)
+            {
+                foreach (var placutaRAM in Model.placuteRAM)
+                {
+                    pretTotal += placutaRAM.Pret;
+                    var pretInt = (int)placutaRAM.Pret;
+                    var pretDec = (int)((placutaRAM.Pret - Math.Floor(placutaRAM.Pret)) * 100);
+
+
+                    <div class="produs">
+                        <div class="img">
+                            <img src="~/@placutaRAM.imgLink" />
+                        </div>
+                        <div class="text">
+                            <h1>@Html.ActionLink(placutaRAM.Nume, "Vizualizare", "PlacuteRAM", new { id = placutaRAM.Id }, null)</h1>
+                            <div class="detalii">
+                                <p>Vandut de :HardwareShop</p>
+                            </div>
+                            <div class="cumpara">
+                                <p class="pret">
+                                    @pretInt
+                                    @if (pretDec > 0)
+                                    {
+                                        <sup>@pretDec</sup>
+                                    }
+                                    Lei
+                                </p>
+                                <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {id = placutaRAM.Id,categorie = "placuteRAM",nrBuc = 1})">Stergere produs</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+            @if (Model.unitatiDeStocare.Count > 0)
+            {
+                foreach (var unitate in Model.unitatiDeStocare)
+                {
+                    pretTotal += unitate.Pret;
+                    var pretInt = (int)unitate.Pret;
+                    var pretDec = (int)((unitate.Pret - Math.Floor(unitate.Pret)) * 100);
+
+                    <div class="produs">
+                        <div class="img">
+                            <img src="~/@unitate.imgLink" />
+                        </div>
+                        <div class="text">
+                            <h1>@Html.ActionLink(unitate.Nume, "Vizualizare", "UnitatiStocare", new { id = unitate.Id }, null)</h1>
+                            <div class="detalii">
+                                <p>Vandut de :HardwareShop</p>
+                            </div>
+                            <div class="cumpara">
+                                <p class="pret">
+                                    @pretInt
+                                    @if (pretDec > 0)
+                                    {
+                                        <sup>@pretDec</sup>
+                                    }
+                                    Lei
+                                </p>
+                                <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {id = unitate.Id,categorie = "unitatiDeStocare",nrBuc = 1})">Stergere produs</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            @if (Model.psu.Count > 0)
+            {
+                foreach (var sursa in Model.psu)
+                {
+                    pretTotal += sursa.Pret;
+                    var pretInt = (int)sursa.Pret;
+                    var pretDec = (int)((sursa.Pret - Math.Floor(sursa.Pret)) * 100);
+
+                    <div class="produs">
+                        <div class="img">
+                            <img src="~/@sursa.imgLink" />
+                        </div>
+                        <div class="text">
+                            <h1>@Html.ActionLink(sursa.Nume, "Vizualizare", "SurseDeAlimentare", new { id = sursa.Id }, null)</h1>
+                            <div class="detalii">
+                                <p>Vandut de :HardwareShop</p>
+                            </div>
+                            <div class="cumpara">
+                                <p class="pret">
+                                    @pretInt
+                                    @if (pretDec > 0)
+                                    {
+                                        <sup>@pretDec</sup>
+                                    }
+                                    Lei
+                                </p>
+                                <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {id = sursa.Id,categorie = "surseDeAlimentare",nrBuc = 1})">Stergere produs</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            @if (Model.pastaCPU.Count > 0)
+            {
+                foreach (var pasta in Model.pastaCPU)
+                {
+                    pretTotal += pasta.Pret;
+                    var pretInt = (int)pasta.Pret;
+                    var pretDec = (int)((pasta.Pret - Math.Floor(pasta.Pret)) * 100);
+
+                    <div class="produs">
+                        <div class="img">
+                            <img src="~/@pasta.imgLink" />
+                        </div>
+                        <div class="text">
+                            <h1>@Html.ActionLink(pasta.Nume, "Vizualizare", "PastaProcesor", new { id = pasta.Id }, null)</h1>
+                            <div class="detalii">
+                                <p>Vandut de :HardwareShop</p>
+                            </div>
+                            <div class="cumpara">
+                                <p class="pret">
+                                    @pretInt
+                                    @if (pretDec > 0)
+                                    {
+                                        <sup>@pretDec</sup>
+                                    }
+                                    Lei
+                                </p>
+                                <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {id = pasta.Id,categorie = "pastaCPU",nrBuc = 1})">Stergere produs</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="sumarComanda">
+            @{
+                var pretIntreg = (int)pretTotal;
+                var pretDecimal = (int)((pretTotal - Math.Floor(pretTotal)) * 100);
+            }
+            <h1>Sumar comanda</h1>
+            <div class="costuri">
+                <p class="p1">Cost produse:</p>
+                <p class="p2">
+                    @pretIntreg
+                    @if (pretDecimal != 0)
+                    {
+                        <sup>@pretDecimal</sup>
+                    }
+                    Lei
+                </p>
+                <p class="p3" title="Livrare gratuita la comenzi de minim 2000 de lei">Cost livrare*:</p>
+                @if (pretTotal > 2000)
+                {
+                    <p class="livrareGratis">GRATUIT</p>
+                }
+                else
+                {
+                    pretTotal += 30;
+                    <p class="p4">30 Lei</p>
+                }
+            </div>
+            <div class="total">
+                <p class="p5">Total:</p>
+                @{
+                    pretIntreg = (int)pretTotal;
+                    pretDecimal = (int)((pretTotal - Math.Floor(pretTotal)) * 100);
+                }
+                <p class="p6">
+                    @pretIntreg
+                    @if (pretDecimal != 0)
+                    {
+                        <sup>@pretDecimal</sup>
+                    }
+                    Lei
+                </p>
+            </div>
+            <a href="@Url.Action("DetaliiComanda","Comanda")">Continua</a>
+        </div>
+    }
+</main>
+<script>
+    function stergeMesaj() {
+        var mesaj = document.getElementsByClassName("cosGol");
+        mesaj[0].style.opacity = "0";
+    }
+</script>

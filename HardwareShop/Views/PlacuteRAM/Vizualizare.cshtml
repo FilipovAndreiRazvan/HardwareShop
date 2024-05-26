@@ -1,0 +1,162 @@
+﻿@model HardwareShop.Models.PlacutaRAM
+<link rel="stylesheet" type="text/css" href="~/Content/VizualizareProdus.css">
+
+<script src="~/Scripts/VizualizareProdus.js" defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
+@{
+    var pretIntreg = (int)Model.Pret;
+    var pretDecimal = (int)((Model.Pret - Math.Floor(Model.Pret)) * 100);
+    var pret = Model.Pret;
+    string disponibilitate;
+    string className = "";
+    if (Model.stoc > 0)
+    {
+        disponibilitate = "In stoc";
+        className = "disponibil";
+    }
+    else
+    {
+        disponibilitate = "Stoc epuizat";
+        className = "indisponibil";
+    }
+}
+<main>
+    <div class="produs">
+        <div class="imagine">
+            <img src="~/@Model.imgLink" />
+        </div>
+        <div class="text">
+            <h1>@Model.Nume</h1>
+            <h4>
+                Disponibilitate:
+                <span class=@className>@disponibilitate</span>
+            </h4>
+            <h4>
+                Brand:
+                <span class="brand">@Model.Brand</span>
+            </h4>
+            <hr />
+            <div class="comanda">
+                @if (User.IsInRole("Furnizor"))
+                {
+                    <div class="pretBuc">
+                        <p>
+                            Stoc existent:
+                            <span>
+                                <input type="text" readonly id="stocExistent" value=@Model.stoc> buc
+                            </span>
+                        </p>
+                        <span>Stoc nou:</span>
+                        <input type="text" id="stocNou" value="1" onblur="validareInput(this);" />
+                        <span>buc.</span>
+                        <span id="wrongInput">Introduceti un numar intreg cuprins intre 1 si 5!</span>
+                    </div>
+
+                }
+                else
+                {
+            <div class="pretBuc">
+                <p>
+                    Pret/buc:
+                    <span id="pretBuc">
+                        @pretIntreg
+                        @if (pretDecimal > 0)
+                        {
+                            <sup>@pretDecimal</sup>
+                        }
+                    </span> Lei
+                </p>
+                @if (disponibilitate == "Stoc epuizat")
+                {
+                    <input type="text" id="nrBucati" value="1" />
+                }
+                else
+                {
+                    <input type="text" id="nrBucati" oninput="calculeazaPretTotal(this);" onblur="resetareInput(this);" value="1" />
+                }
+                <span>buc.</span>
+                <span id="wrongInput">Introduceti un numar intreg cuprins intre 1 si 5!</span>
+            </div>
+                }
+
+                @if (User.IsInRole("Furnizor"))
+                {
+                    <div class="butonActualizare">
+                        <a href="#" id="actualizeazaStoc">Actualizeaza stoc</a>
+                    </div>
+                }
+                else
+                {
+            <div class="pretTotal">
+                <p>
+                    Pret total:
+                    <span id="pretTotal" pret="@Model.Pret">
+                        <span id="pretIntreg">@pretIntreg</span> @if (pretDecimal > 0)
+                        {
+                            <sup>@pretDecimal</sup>
+                        }
+                    </span> Lei
+                </p>
+                <a class="adaugaProdus" href="#" id="adaugaLink">Adauga in cos</a>
+            </div>
+                }
+            </div>
+            <hr class="hr_2" />
+            @if (Model.Descriere != "" && Model.Descriere != null)
+            {
+                <div class="descriere">
+                    <h2>Descriere</h2>
+                    <p>@Model.Descriere</p>
+                </div>
+                <hr />
+            }
+            <h3>Specificatii</h3>
+            <div class="specificatii">
+
+                <ul>
+                    <li>Tip:@Model.tip</li>
+                    <li>Capacitate:@Model.capacitate</li>
+                </ul>
+                <ul>
+                    <li>Frecventa:@Model.frecventa</li>
+                    <li>Module:@Model.module</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+
+@if (@User.IsInRole("Furnizor") == false)
+{
+    <script>
+        document.getElementById('adaugaLink').addEventListener('click', function (e) {
+            e.preventDefault();
+
+            var nrBucInput = document.getElementById('nrBucati');
+            var nrBucValue = nrBucInput.value;
+
+            var url = '@Url.Action("Adauga", "Cos", new { id = Model.Id, categorie = "placuteRAM", nrBuc = "__PLACEHOLDER__" })';
+
+            url = url.replace('__PLACEHOLDER__', encodeURIComponent(nrBucValue));
+            url = url.replace("amp;", "");
+            window.location.href = url;
+        });
+    </script>
+}
+
+<script>
+    document.getElementById('actualizeazaStoc').addEventListener('click', function (e) {
+    e.preventDefault();
+    var stocIntrodus = parseInt(document.getElementById("stocNou").value,10);
+    var stocExistent = parseInt(document.getElementById("stocExistent").value,10);
+    if (stocIntrodus <= stocExistent) {
+        window.alert("Stocul nou trebuie sa fie mai mare decat stocul existent!");
+    }
+    else {
+        var url = '@Url.Action("ActualizareStoc", "PlacuteRAM",new {id = Model.Id,stocNou = "__PLACEHOLDER__" })';
+        url = url.replace('__PLACEHOLDER__', encodeURIComponent(stocIntrodus));
+        url = url.replace("amp;", "");
+        window.location.href = url;
+    }
+});
+</script>

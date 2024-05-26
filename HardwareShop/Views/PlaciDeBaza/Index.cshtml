@@ -1,0 +1,93 @@
+﻿@model List<HardwareShop.Models.Motherboard>
+@{
+    ViewBag.Title = "Index";
+}
+<link rel="stylesheet" href="~/Content/IndexCategorie.css" type="text/css" />
+<h2 class="titlu">Placi de baza</h2>
+@if (User.IsInRole("Furnizor"))
+{
+    @Html.ActionLink("Adauga produs", "Adauga", "PlaciDeBaza", new { @class = "adaugaProdus" });
+}
+<main>
+    @foreach (var placaDeBaza in Model)
+    {
+        var pretIntreg = (int)placaDeBaza.Pret;
+        var pretDecimal = (int)((placaDeBaza.Pret - Math.Floor(placaDeBaza.Pret)) * 100);
+        <div class="produs">
+            <div class="img">
+                <img src="~/@placaDeBaza.imgLink" />
+            </div>
+            <div class="text">
+                <div class="titlu-favorit">
+                    <h1>@Html.ActionLink(placaDeBaza.Nume, "Vizualizare", "PlaciDeBaza", new { id = placaDeBaza.Id }, null)</h1>
+                    @if (User.IsInRole("Furnizor") == false && User.IsInRole("Admin") == false)
+                    {
+                        <div class="adaugaFavorit">
+                            @if (User.Identity.Name == "")
+                            {
+                                placaDeBaza.produsFavorit = false;
+                            }
+                            @if (placaDeBaza.produsFavorit == false)
+                            {
+                                <a href="@Url.Action("Adauga","ListaFavorite",new { id = placaDeBaza.Id,categorie = "placiDeBaza"},null)">
+                                    <img src="~/Imagini/heart.png" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Sterge","ListaFavorite",new { id = placaDeBaza.Id,categorie = "placiDeBaza"},null)">
+                                    <img src="~/Imagini/heartRed.png" />
+                                </a>
+                            }
+                        </div>
+                    }
+
+                </div>
+                <div class="detalii">
+                    <ul>
+                        <li>Socket:@placaDeBaza.socket</li>
+                        <li>Chipset:@placaDeBaza.chipset</li>
+                        <li>Sloturi RAM:@placaDeBaza.nrSloturiRAM</li>
+                    </ul>
+                    <ul>
+                        <li>Tip RAM:@placaDeBaza.tipRAM</li>
+                        <li>Sloturi PCIe:@placaDeBaza.sloturiPCIe</li>
+                        @if (User.IsInRole("Furnizor"))
+                        {
+                            <li>Stoc:@placaDeBaza.stoc buc</li>
+                        }
+                    </ul>
+                </div>
+                <div class="cumpara">
+                    <p class="pret">
+                        @pretIntreg
+                        @if (pretDecimal > 0)
+                        {
+                            <sup>@pretDecimal</sup>
+                        }
+                        Lei
+                    </p>
+                    @if (User.IsInRole("Furnizor"))
+                    {
+                        <a class="stergeProdus" href="@Url.Action("Sterge","PlaciDeBaza",new {id = placaDeBaza.Id})">Sterge</a>
+
+                    }
+                    else
+                    {
+                        if (placaDeBaza.stoc > 0)
+                        {
+                            <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {id = placaDeBaza.Id,categorie = "placiDeBaza",nrBuc = 1})">Adauga in cos</a>
+                        }
+                        else
+                        {
+                            <p class="stocEpuizat">Stoc epuizat</p>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    }
+</main>
+
+

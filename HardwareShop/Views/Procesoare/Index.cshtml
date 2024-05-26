@@ -1,0 +1,92 @@
+﻿@model List<HardwareShop.Models.CPU>
+@{
+    ViewBag.Title = "Index";
+}
+<link rel="stylesheet" href="~/Content/IndexCategorie.css" type="text/css" />
+<h2 class="titlu">Procesoare</h2>
+@if (User.IsInRole("Furnizor"))
+{
+    @Html.ActionLink("Adauga produs", "Adauga", "Procesoare", new { @class = "adaugaProdus" });
+}
+<main>
+    @foreach (var procesor in Model)
+    {
+        var pretIntreg = (int)procesor.Pret;
+        var pretDecimal = (int)((procesor.Pret - Math.Floor(procesor.Pret)) * 100);
+
+
+        <div class="produs">
+            <div class="img">
+                <img src="~/@procesor.imgLink" />
+            </div>
+            <div class="text">
+                <div class="titlu-favorit">
+                    <h1>@Html.ActionLink(procesor.Nume, "Vizualizare", "Procesoare", new { id = procesor.Id }, null)</h1>
+                    @if (User.IsInRole("Furnizor") == false && User.IsInRole("Admin") == false)
+                    {
+                        <div class="adaugaFavorit">
+                            @if (User.Identity.Name == "")
+                            {
+                                procesor.produsFavorit = false;
+                            }
+                            @if (procesor.produsFavorit == false)
+                            {
+                                <a href="@Url.Action("Adauga", "ListaFavorite", new { id = procesor.Id, categorie = "procesoare" }, null)">
+                                    <img src="~/Imagini/heart.png" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Sterge", "ListaFavorite", new { id = procesor.Id, categorie = "procesoare" }, null)">
+                                    <img src="~/Imagini/heartRed.png" />
+                                </a>
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="detalii">
+                    <ul>
+                        <li>Ferecventa de baza:@procesor.frecventaBaza</li>
+                        <li>Frecventa turbo:@procesor.frecventaTurbo</li>
+                    </ul>
+                    <ul>
+                        <li>Nuclee:@procesor.nrNuclee</li>
+                        <li>Thread-uri:@procesor.nrThreads</li>
+                        @if (User.IsInRole("Furnizor"))
+                        {
+                            <li>Stoc:@procesor.stoc buc</li>
+                        }
+                    </ul>
+                </div>
+                <div class="cumpara">
+                    <p class="pret">
+                        @pretIntreg
+                        @if (pretDecimal > 0)
+                        {
+                            <sup>@pretDecimal</sup>
+                        }
+                        Lei
+                    </p>
+                    @if (User.IsInRole("Furnizor"))
+                    {
+                        <a class="stergeProdus" href="@Url.Action("Sterge","Procesoare",new {id = procesor.Id})">Sterge</a>
+
+                    }
+                    else
+                    {
+                        if (procesor.stoc > 0)
+                        {
+                            <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {id = procesor.Id,categorie = "procesoare",nrBuc = 1})">Adauga in cos</a>
+                        }
+                        else
+                        {
+                            <p class="stocEpuizat">Stoc epuizat</p>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    }
+</main>
+

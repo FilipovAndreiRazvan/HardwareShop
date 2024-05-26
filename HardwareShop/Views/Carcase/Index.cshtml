@@ -1,0 +1,101 @@
+﻿@model List<HardwareShop.Models.Carcasa>
+@{
+    ViewBag.Title = "Index";
+}
+<link rel="stylesheet" href="~/Content/IndexCategorie.css" type="text/css" />
+<h2 class="titlu">Carcase</h2>
+@if (User.IsInRole("Furnizor"))
+{
+    @Html.ActionLink("Adauga produs", "Adauga", "Carcase", new { @class = "adaugaProdus" });
+}
+<main>
+    @foreach (var carcasa in Model)
+    {
+        var pretIntreg = (int)carcasa.Pret;
+        var pretDecimal = Math.Round((carcasa.Pret - pretIntreg) * 100);
+        <div class="produs">
+            <div class="img">
+                <img src="~/@carcasa.imgLink" />
+            </div>
+            <div class="text">
+                <div class="titlu-favorit">
+                    <h1>@Html.ActionLink(carcasa.Nume, "Vizualizare", "Carcase", new { id = carcasa.Id }, null)</h1>
+                    @if (User.IsInRole("Furnizor") == false && User.IsInRole("Admin") == false)
+                    {
+                        <div class="adaugaFavorit">
+                            @if (User.Identity.Name == "")
+                            {
+                                carcasa.produsFavorit = false;
+                            }
+                            @if (carcasa.produsFavorit == false)
+                            {
+                                <a href="@Url.Action("Adauga", "ListaFavorite", new { id = carcasa.Id, categorie = "carcase" }, null)">
+                                    <img src="~/Imagini/heart.png" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Sterge", "ListaFavorite", new { id = carcasa.Id, categorie = "carcase" }, null)">
+                                    <img src="~/Imagini/heartRed.png" />
+                                </a>
+                            }
+                        </div>
+                    }
+
+                </div>
+                <div class="detalii">
+                    <ul>
+                        <li>Format:@carcasa.format</li>
+                        <li>Ventilatoare:@carcasa.nrVentilatoare</li>
+                        <li>
+                            Deschidere laterala:
+                            @if (carcasa.deschidereLaterala == true)
+                            {
+                                <span>DA</span>
+                            }
+                            else
+                            {
+                                <span>NU</span>
+                            }
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>Tip carcasa:@carcasa.tipCarcasa</li>
+                        <li>Locase sloturi extensii:@carcasa.nrLocaseSloturiExtensii</li>
+                        @if (User.IsInRole("Furnizor"))
+                        {
+                            <li>Stoc:@carcasa.stoc buc</li>
+                        }
+                    </ul>
+                </div>
+                <div class="cumpara">
+                    <p class="pret">
+                        @pretIntreg
+                        @if (pretDecimal > 0)
+                        {
+                            <sup>@pretDecimal</sup>
+                        }
+                        Lei
+                    </p>
+                    @if (User.IsInRole("Furnizor"))
+                    {
+                        <a class="stergeProdus" href="@Url.Action("Sterge","Carcase",new {id = carcasa.Id})">Sterge</a>
+
+                    }
+                    else
+                    {
+                        if (carcasa.stoc > 0)
+                        {
+                            <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {id = carcasa.Id,categorie = "carcase",nrBuc = 1})">Adauga in cos</a>
+                        }
+                        else
+                        {
+                            <p class="stocEpuizat">Stoc epuizat</p>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    }
+</main>
