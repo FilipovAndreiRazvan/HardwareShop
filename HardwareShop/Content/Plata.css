@@ -1,0 +1,13 @@
+﻿.facturare, .livrare, .plata, .line-livrare, .line-plata {
+    background-color: #6DD6FA;
+}
+
+    .facturare h1, .livrare h1,.plata h1 {
+        color: white;
+    }
+
+.line-livrare,.line-plata {
+    border: 2px solid #6DD6FA;
+}
+
+

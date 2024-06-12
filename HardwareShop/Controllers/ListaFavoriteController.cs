@@ -1,4 +1,5 @@
 ﻿using HardwareShop.Models;
+using HardwareShop.ViewModels;
 using Microsoft.AspNet.Identity;
 using System.Data.Entity;
 
@@ -16,7 +17,7 @@ namespace HardwareShop.Controllers
         {
             var userId = User.Identity.GetUserId();
             var produseFavoriteDb = context.produseFavorite.Include(p => p.Utilizator).Where(p => p.Utilizator.Id == userId).ToList();
-            var produseFavorite = new ProdusFavorit();
+            var produseFavorite = new ProduseFavoriteViewModel();
             if (produseFavoriteDb.Count == 0)
             {
                 produseFavorite.Id = 0;

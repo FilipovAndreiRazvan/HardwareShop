@@ -71,3 +71,19 @@ label {
 .col-md-2 {
     width: auto;
 }
+.subtitlu {
+    margin-left: 100px;
+    margin-top:50px;
+}
+.subtitlu span{
+    display:inline-block;
+    border:2px solid black;
+    border-radius:50%;
+    width:40px;
+    height:40px;
+    text-align:center;
+    padding-bottom:20px;
+    margin-right:20px;
+    position:relative;
+    top:2px;
+}

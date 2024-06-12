@@ -1,0 +1,22 @@
+﻿<style>
+    .comandaPlasata {
+        text-align: center;
+        align-items: center;
+        margin-top: 200px;
+    }
+</style>
+<h1 class="comandaPlasata">Comanda a fost plasata cu succes</h1>
+<p>Vei fi redirectionat in <span id="timer" ></span> secunde...</p>
+<script>
+    let countdownValue = 5;
+
+    const countdown = setInterval(function () {
+        document.getElementById('timer').innerHTML = countdownValue;
+        countdownValue--;
+        if (countdownValue < 0) {
+              var url = '@Url.Action("Index", "Home")';
+              window.location.href = url;
+        }
+    }, 1000);
+
+</script>

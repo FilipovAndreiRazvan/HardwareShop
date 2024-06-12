@@ -1,4 +1,4 @@
-﻿@model HardwareShop.Models.ProdusFavorit
+﻿@model HardwareShop.ViewModels.ProduseFavoriteViewModel
 @{
     double pretTotal = 0;
 }
@@ -67,9 +67,9 @@
     }
     .stergeProdus{
       position:relative;
-      left:355px;
+      left:305px;
+      width:230px;
       margin-top:15px;
-      width:180px;
       padding:7px 25px;
 
     }
@@ -125,7 +125,7 @@
                                 </p>
                                 @if (carcasa.stoc > 0)
                                     {
-                                    <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {id = carcasa.Id,categorie = "carcase",nrBuc = 1})">Adauga in cos</a>
+                                    <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {idProdus = carcasa.Id,categorie = "carcase",nrBuc = 1})">Adauga in cos</a>
                                 }
                                 else
                                 {
@@ -166,7 +166,7 @@
                                 </p>
                                 @if (motherboard.stoc > 0)
                                 {
-                                    <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {id = motherboard.Id,categorie = "placiDeBaza",nrBuc = 1})">Adauga in cos</a>
+                                    <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {idProdus = motherboard.Id,categorie = "placiDeBaza",nrBuc = 1})">Adauga in cos</a>
                                 }
                                 else
                                 {
@@ -207,7 +207,7 @@
                                 </p>
                                 @if (procesor.stoc > 0)
                                 {
-                                    <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {id = procesor.Id,categorie = "procesoare",nrBuc = 1})">Adauga in cos</a>
+                                    <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {idProdus = procesor.Id,categorie = "procesoare",nrBuc = 1})">Adauga in cos</a>
                                 }
                                 else
                                 {
@@ -247,7 +247,7 @@
                                 </p>
                                 @if (placaVideo.stoc > 0)
                                 {
-                                    <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {id = placaVideo.Id,categorie = "placiVideo",nrBuc = 1})">Adauga in cos</a>
+                                    <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {idProdus = placaVideo.Id,categorie = "placiVideo",nrBuc = 1})">Adauga in cos</a>
                                 }
                                 else
                                 {
@@ -288,7 +288,7 @@
                                 </p>
                                 @if (placutaRAM.stoc > 0)
                                 {
-                                    <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {id = placutaRAM.Id,categorie = "placuteRAM",nrBuc = 1})">Adauga in cos</a>
+                                    <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {idProdus = placutaRAM.Id,categorie = "placuteRAM",nrBuc = 1})">Adauga in cos</a>
                                 }
                                 else
                                 {
@@ -330,7 +330,7 @@
                                 </p>
                                 @if (unitate.stoc > 0)
                                 {
-                                    <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {id = unitate.Id,categorie = "unitatiDeStocare",nrBuc = 1})">Adauga in cos</a>
+                                    <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {idProdus = unitate.Id,categorie = "unitatiDeStocare",nrBuc = 1})">Adauga in cos</a>
                                 }
                                 else
                                 {
@@ -370,7 +370,7 @@
                                 </p>
                                 @if (sursa.stoc > 0)
                                 {
-                                    <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {id = sursa.Id,categorie = "surseDeAlimentare",nrBuc = 1})">Adauga in cos</a>
+                                    <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {idProdus = sursa.Id,categorie = "surseDeAlimentare",nrBuc = 1})">Adauga in cos</a>
                                 }
                                 else
                                 {
@@ -410,7 +410,7 @@
                                 </p>
                                 @if (pasta.stoc > 0)
                                 {
-                                    <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {id = pasta.Id,categorie = "pastaCPU",nrBuc = 1})">Adauga in cos</a>
+                                    <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {idProdus = pasta.Id,categorie = "pastaCPU",nrBuc = 1})">Adauga in cos</a>
                                 }
                                 else
                                 {

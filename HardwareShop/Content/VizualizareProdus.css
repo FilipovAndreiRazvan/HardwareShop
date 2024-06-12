@@ -37,7 +37,6 @@ input {
     width: 45%;
     margin: 0 auto;
 }
-
 .specificatii {
     display: flex;
     flex-direction: row;

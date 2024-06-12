@@ -1,9 +1,8 @@
 ﻿function calculeazaPretTotal(input) {
 
-    if (isNaN(input.value) == false && input.value != ""  && input.value > 0 && input.value[0] != "0" && input.value <= 5) {
+    if (isNaN(input.value) == false && input.value != ""  && input.value > 0 && input.value[0] != "0" ) {
         var cantitate = parseInt(input.value);
         var pretBucata = parseFloat(document.getElementById("pretTotal").getAttribute("pret").replace(",", "."));
-
 
         var pretTotal = (cantitate * pretBucata);
         var pretIntreg = parseInt(pretTotal);
@@ -19,7 +18,7 @@
         document.getElementById("wrongInput").style.opacity = 0;
         document.getElementById("adaugaLink").style.display = "inline";
     }
-    else if (input.value != "" && (input.value > 5 || isNaN(input.value))){
+    else if (input.value != "" && isNaN(input.value)) {
         document.getElementById("wrongInput").style.opacity = 1;
         input.style.borderColor = "red";
         document.getElementById("adaugaLink").style.display = "none";

@@ -38,9 +38,9 @@ namespace HardwareShop.Controllers
             }
         }
 
-        public ActionResult Vizualizare(int id)
+        public ActionResult Vizualizare(int idProdus)
         {
-            var unitateStocare = context.stocare.SingleOrDefault(uS => uS.Id == id);
+            var unitateStocare = context.stocare.SingleOrDefault(uS => uS.Id == idProdus);
             return View(unitateStocare);
         }
         public ActionResult Adauga()

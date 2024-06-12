@@ -131,11 +131,13 @@
             var nrBucInput = document.getElementById('nrBucati');
             var nrBucValue = nrBucInput.value;
 
-            var url = '@Url.Action("Adauga", "Cos", new { id = Model.Id, categorie = "surseDeAlimentare", nrBuc = "__PLACEHOLDER__" })';
+            var url = '@Url.Action("Adauga", "Cos", new { idProdus = Model.Id, categorie = "surseDeAlimentare", nrBuc = "__PLACEHOLDER__" })';
 
-            url = url.replace('__PLACEHOLDER__', encodeURIComponent(nrBucValue));
-            url = url.replace("amp;", "");
-            window.location.href = url;
+           var idProdus = '@Model.Id';
+            var categorie = 'surseDeAlimentare';
+           var url = `/Cos/Adauga?idProdus=${encodeURIComponent(idProdus)}&categorie=${encodeURIComponent(categorie)}&nrBuc=${encodeURIComponent(nrBucValue)}`;
+
+           window.location.href = url;
         });
     </script>
 }

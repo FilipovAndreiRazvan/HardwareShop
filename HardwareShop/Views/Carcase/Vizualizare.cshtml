@@ -20,6 +20,12 @@
         className = "indisponibil";
     }
 }
+<style>
+    .inputRecenzie {
+        width:100vh;
+        max-width:1000px;
+    }
+</style>
 <main>
     <div class="produs">
         <div class="imagine">
@@ -49,7 +55,7 @@
                         <span>Stoc nou:</span>
                         <input type="text" id="stocNou" value="1" onblur="validareInput(this);" />
                         <span>buc.</span>
-                        <span id="wrongInput">Introduceti un numar intreg cuprins intre 1 si 5!</span>
+                        <span id="wrongInput">Introduceti un numar intreg!</span>
                     </div>
 
                 }
@@ -75,7 +81,7 @@
                             <input type="text" id="nrBucati" oninput="calculeazaPretTotal(this);" onblur="resetareInput(this);" value="1" />
                         }
                         <span>buc.</span>
-                        <span id="wrongInput">Introduceti un numar intreg cuprins intre 1 si 5!</span>
+                        <span  style="text-align:center;" id="wrongInput">Introduceti un numar intreg!</span>
                     </div>
                 }
 
@@ -140,21 +146,22 @@
 {
     <script>
         document.getElementById('adaugaLink').addEventListener('click', function (e) {
-            e.preventDefault();
+           e.preventDefault();
 
-            var nrBucInput = document.getElementById('nrBucati');
-            var nrBucValue = nrBucInput.value;
+    var nrBucInput = document.getElementById('nrBucati');
+    var nrBucValue = nrBucInput.value;
 
-            var url = '@Url.Action("Adauga", "Cos", new { id = Model.Id, categorie = "carcase", nrBuc = "__PLACEHOLDER__" })';
+    var idProdus = '@Model.Id';
+    var categorie = 'carcase';
+    var url = `/Cos/Adauga?idProdus=${encodeURIComponent(idProdus)}&categorie=${encodeURIComponent(categorie)}&nrBuc=${encodeURIComponent(nrBucValue)}`;
 
-            url = url.replace('__PLACEHOLDER__', encodeURIComponent(nrBucValue));
-            url = url.replace("amp;", "");
-            window.location.href = url;
+    window.location.href = url;
         });
     </script>
 }
-
-<script>
+else
+{
+    <script>
     document.getElementById('actualizeazaStoc').addEventListener('click', function (e) {
     e.preventDefault();
     var stocIntrodus = parseInt(document.getElementById("stocNou").value,10);
@@ -169,4 +176,5 @@
         window.location.href = url;
     }
 });
-</script>
+    </script>
+}

@@ -128,10 +128,10 @@
             var nrBucInput = document.getElementById('nrBucati');
             var nrBucValue = nrBucInput.value;
 
-            var url = '@Url.Action("Adauga", "Cos", new { id = Model.Id, categorie = "pastaCPU", nrBuc = "__PLACEHOLDER__" })';
+            var idProdus = '@Model.Id';
+            var categorie = 'pastaCPU';
+            var url = `/Cos/Adauga?idProdus=${encodeURIComponent(idProdus)}&categorie=${encodeURIComponent(categorie)}&nrBuc=${encodeURIComponent(nrBucValue)}`;
 
-            url = url.replace('__PLACEHOLDER__', encodeURIComponent(nrBucValue));
-            url = url.replace("amp;", "");
             window.location.href = url;
         });
     </script>

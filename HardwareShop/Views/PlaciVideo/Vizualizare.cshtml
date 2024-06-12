@@ -51,28 +51,28 @@
                 }
                 else
                 {
-            <div class="pretBuc">
-                <p>
-                    Pret/buc:
-                    <span id="pretBuc">
-                        @pretIntreg
-                        @if (pretDecimal > 0)
+                    <div class="pretBuc">
+                        <p>
+                            Pret/buc:
+                            <span id="pretBuc">
+                                @pretIntreg
+                                @if (pretDecimal > 0)
+                                {
+                                    <sup>@pretDecimal</sup>
+                                }
+                            </span> Lei
+                        </p>
+                        @if (disponibilitate == "Stoc epuizat")
                         {
-                            <sup>@pretDecimal</sup>
+                            <input type="text" id="nrBucati" value="1" />
                         }
-                    </span> Lei
-                </p>
-                @if (disponibilitate == "Stoc epuizat")
-                {
-                    <input type="text" id="nrBucati" value="1" />
-                }
-                else
-                {
-                    <input type="text" id="nrBucati" oninput="calculeazaPretTotal(this);" onblur="resetareInput(this);" value="1" />
-                }
-                <span>buc.</span>
-                <span id="wrongInput">Introduceti un numar intreg cuprins intre 1 si 5!</span>
-            </div>
+                        else
+                        {
+                            <input type="text" id="nrBucati" oninput="calculeazaPretTotal(this);" onblur="resetareInput(this);" value="1" />
+                        }
+                        <span>buc.</span>
+                        <span id="wrongInput">Introduceti un numar intreg cuprins intre 1 si 5!</span>
+                    </div>
                 }
 
                 @if (User.IsInRole("Furnizor"))
@@ -81,7 +81,7 @@
                         <a href="#" id="actualizeazaStoc">Actualizeaza stoc</a>
                     </div>
                 }
-                else
+                else if (Model.stoc > 0)
                 {
                     <div class="pretTotal">
                         <p>
@@ -131,11 +131,13 @@
             var nrBucInput = document.getElementById('nrBucati');
             var nrBucValue = nrBucInput.value;
 
-            var url = '@Url.Action("Adauga", "Cos", new { id = Model.Id, categorie = "placiVideo", nrBuc = "__PLACEHOLDER__" })';
+            var url = '@Url.Action("Adauga", "Cos", new { idProdus = Model.Id, categorie = "placiVideo", nrBuc = "__PLACEHOLDER__" })';
 
-            url = url.replace('__PLACEHOLDER__', encodeURIComponent(nrBucValue));
-            url = url.replace("amp;", "");
-            window.location.href = url;
+           var idProdus = '@Model.Id';
+var categorie = 'placiVideo';
+var url = `/Cos/Adauga?idProdus=${encodeURIComponent(idProdus)}&categorie=${encodeURIComponent(categorie)}&nrBuc=${encodeURIComponent(nrBucValue)}`;
+
+window.location.href = url;
         });
     </script>
 }

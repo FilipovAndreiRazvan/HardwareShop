@@ -21,7 +21,7 @@
             </div>
             <div class="text">
                 <div class="titlu-favorit">
-                    <h1>@Html.ActionLink(stocare.Nume, "Vizualizare", "UnitatiStocare", new { id = stocare.Id }, null)</h1>
+                    <h1>@Html.ActionLink(stocare.Nume, "Vizualizare", "UnitatiStocare", new { idProdus = stocare.Id }, null)</h1>
                     @if (User.IsInRole("Furnizor") == false && User.IsInRole("Admin") == false)
                     {
                         <div class="adaugaFavorit">
@@ -77,7 +77,7 @@
                     {
                         if (stocare.stoc > 0)
                         {
-                            <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {id = stocare.Id,categorie = "unitatiDeStocare",nrBuc = 1})">Adauga in cos</a>
+                            <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {idProdus = stocare.Id,categorie = "unitatiDeStocare",nrBuc = 1})">Adauga in cos</a>
                         }
                         else
                         {

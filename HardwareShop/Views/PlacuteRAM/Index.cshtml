@@ -20,7 +20,7 @@
             </div>
             <div class="text">
                 <div class="titlu-favorit">
-                    <h1>@Html.ActionLink(placuta.Nume, "Vizualizare", "PlacuteRAM", new { id = placuta.Id }, null)</h1>
+                    <h1>@Html.ActionLink(placuta.Nume, "Vizualizare", "PlacuteRAM", new { idProdus = placuta.Id }, null)</h1>
                     @if (User.IsInRole("Furnizor") == false && User.IsInRole("Admin") == false)
                     {
                         <div class="adaugaFavorit">
@@ -75,7 +75,7 @@
                     {
                         if (placuta.stoc > 0)
                         {
-                            <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {id = placuta.Id,categorie = "placuteRAM",nrBuc = 1})">Adauga in cos</a>
+                            <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {idProdus = placuta.Id,categorie = "placuteRAM",nrBuc = 1})">Adauga in cos</a>
                         }
                         else
                         {

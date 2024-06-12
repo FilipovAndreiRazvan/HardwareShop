@@ -35,6 +35,9 @@ namespace HardwareShop.Models
         public DbSet<PSU> surse { get; set; }
         public DbSet<UnitatiDeStocare> stocare { get; set; }
         public DbSet<Comanda> comanda { get; set; }
+        public DbSet<Factura> factura { get; set; }
+        public DbSet<ProduseComandate> produseComandate { get; set; }
+        public DbSet<Card> carduri { get; set; }
 
 
 

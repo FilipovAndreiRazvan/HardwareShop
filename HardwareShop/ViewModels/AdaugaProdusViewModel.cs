@@ -1,6 +1,6 @@
 ﻿namespace HardwareShop.Models
 {
-    public class AdaugaProdus
+    public class AdaugaProdusViewModel
     {
         public int Id { get; set; }
         public bool listaFavorite { get; set; }

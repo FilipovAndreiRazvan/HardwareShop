@@ -1,4 +1,6 @@
-﻿@model HardwareShop.Models.CosCumparaturi
+﻿@model HardwareShop.ViewModels.CosCumparaturiViewModel
+@using System.Web.Helpers
+
 @{
     double pretTotal = 0;
 }
@@ -17,268 +19,346 @@
     }
     else
     {
-        <div class="produse">
-            @if (Model.carcase.Count > 0)
+<div class="produse">
+    @if (Model.carcase.Count > 0)
+    {
+
+        foreach (var listaCarcase in Model.carcase)
+        {
+            foreach (var carcasa in listaCarcase)
             {
+                var pret = carcasa.Value.Pret * carcasa.Key;
+                pretTotal += pret;
+                var pretInt = (int)pret;
+                var pretDec = (int)((pret - Math.Floor(pret)) * 100);
 
-                foreach (var carcasa in Model.carcase)
-                {
-                    pretTotal += carcasa.Pret;
-                    var pretInt = (int)carcasa.Pret;
-                    var pretDec = (int)((carcasa.Pret - Math.Floor(carcasa.Pret)) * 100);
-
-                    <div class="produs">
-                        <div class="img">
-                            <img src="~/@carcasa.imgLink" />
+                <div class="produs">
+                    <div class="img">
+                        <img src="~/@carcasa.Value.imgLink" />
+                    </div>
+                    <div class="text">
+                        <h1>@Html.ActionLink(carcasa.Value.Nume, "Vizualizare", "Carcase", new { id = carcasa.Value.Id }, null)</h1>
+                        <div class="detalii">
+                            <p>Vandut de :HardwareShop</p>
                         </div>
-                        <div class="text">
-                            <h1>@Html.ActionLink(carcasa.Nume, "Vizualizare", "Carcase", new { id = carcasa.Id }, null)</h1>
-                            <div class="detalii">
-                                <p>Vandut de :HardwareShop</p>
+                        <div class="cumpara">
+                            <p class="pret">
+                                @pretInt
+                                @if (pretDec > 0)
+                                {
+                                    <sup>@pretDec</sup>
+                                }
+                                Lei
+                            </p>
+                            <div class="nrBuc">
+                                <span onclick="scade(@Json.Encode(carcasa.Value),'carcase')"><img src="~/Imagini/minus.png" /></span>
+                                <input disabled id="nrBuc" type="text" value=@carcasa.Key style="width:50px;text-align: center;">
+                                <span onclick="adauga(@Json.Encode(carcasa.Value),'carcase')"><img src="~/Imagini/plus.png" /></span>
                             </div>
-                            <div class="cumpara">
-                                <p class="pret">
-                                    @pretInt
-                                    @if (pretDec > 0)
-                                    {
-                                        <sup>@pretDec</sup>
-                                    }
-                                    Lei
-                                </p>
-                                <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {id = carcasa.Id,categorie = "carcase",nrBuc = 1})">Stergere produs</a>
-                            </div>
+                            <a class="adaugaProdus" id="sterge" href="@Url.Action("Sterge","Cos",new {idProdus = carcasa.Value.Id,categorie = "carcase",nrBuc = carcasa.Key})">Stergere produs</a>
                         </div>
                     </div>
+                </div>
 
-
-                }
             }
-            @if (Model.motherboard.Count > 0)
+        }
+    }
+    @if (Model.motherboard.Count > 0)
+    {
+        foreach (var listaMotherboard in Model.motherboard)
+        {
+            foreach (var motherboard in listaMotherboard)
             {
-                foreach (var motherboard in Model.motherboard)
-                {
-                    pretTotal += motherboard.Pret;
-                    var pretInt = (int)motherboard.Pret;
-                    var pretDec = (int)((motherboard.Pret - Math.Floor(motherboard.Pret)) * 100);
-                    <div class="produs">
-                        <div class="img">
-                            <img src="~/@motherboard.imgLink" />
+                var pret = motherboard.Value.Pret * motherboard.Key;
+                pretTotal += pret;
+                var pretInt = (int)pret;
+                var pretDec = (int)((pret - Math.Floor(pret)) * 100);
+                <div class="produs">
+                    <div class="img">
+                        <img src="~/@motherboard.Value.imgLink" />
+                    </div>
+                    <div class="text">
+                        <h1>@Html.ActionLink(motherboard.Value.Nume, "Vizualizare", "PlaciDeBaza", new { id = motherboard.Value.Id }, null)</h1>
+                        <div class="detalii">
+                            <p>Vandut de :HardwareShop</p>
                         </div>
-                        <div class="text">
-                            <h1>@Html.ActionLink(motherboard.Nume, "Vizualizare", "PlaciDeBaza", new { id = motherboard.Id }, null)</h1>
-                            <div class="detalii">
-                                <p>Vandut de :HardwareShop</p>
+                        <div class="cumpara">
+                            <p class="pret">
+                                @pretInt
+                                @if (pretDec > 0)
+                                {
+                                    <sup>@pretDec</sup>
+                                }
+                                Lei
+                            </p>
+                            <div class="nrBuc">
+                                <span onclick="scade(@Json.Encode(motherboard.Value),'placiDeBaza')"><img src="~/Imagini/minus.png" /></span>
+                                <input disabled id="nrBuc" type="text" value=@motherboard.Key style="width:50px;text-align: center;">
+                                <span onclick="adauga(@Json.Encode(motherboard.Value),'placiDeBaza')"><img src="~/Imagini/plus.png" /></span>
                             </div>
-                            <div class="cumpara">
-                                <p class="pret">
-                                    @pretInt
-                                    @if (pretDec > 0)
-                                    {
-                                        <sup>@pretDec</sup>
-                                    }
-                                    Lei
-                                </p>
-                                <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {id = motherboard.Id,categorie = "placiDeBaza",nrBuc = 1})">Stergere produs</a>
-                            </div>
+                            <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {idProdus = motherboard.Value.Id,categorie = "placiDeBaza",nrBuc = motherboard.Key})">Stergere produs</a>
                         </div>
                     </div>
-                }
+                </div>
             }
-            @if (Model.cpu.Count > 0)
-            {
-                foreach (var procesor in Model.cpu)
-                {
-                    pretTotal += procesor.Pret;
-                    var pretInt = (int)procesor.Pret;
-                    var pretDec = (int)((procesor.Pret - Math.Floor(procesor.Pret)) * 100);
 
-                    <div class="produs">
-                        <div class="img">
-                            <img src="~/@procesor.imgLink" />
+        }
+    }
+    @if (Model.cpu.Count > 0)
+    {
+        foreach (var listaProcesoare in Model.cpu)
+        {
+            foreach (var procesor in listaProcesoare)
+            {
+                var pret = procesor.Value.Pret * procesor.Key;
+                pretTotal += pret;
+                var pretInt = (int)pret;
+                var pretDec = (int)((pret - Math.Floor(pret)) * 100);
+
+                <div class="produs">
+                    <div class="img">
+                        <img src="~/@procesor.Value.imgLink" />
+                    </div>
+                    <div class="text">
+                        <h1>@Html.ActionLink(procesor.Value.Nume, "Vizualizare", "Procesoare", new { id = procesor.Value.Id }, null)</h1>
+                        <div class="detalii">
+                            <p>Vandut de :HardwareShop</p>
                         </div>
-                        <div class="text">
-                            <h1>@Html.ActionLink(procesor.Nume, "Vizualizare", "Procesoare", new { id = procesor.Id }, null)</h1>
-                            <div class="detalii">
-                                <p>Vandut de :HardwareShop</p>
+                        <div class="cumpara">
+                            <p class="pret">
+                                @pretInt
+                                @if (pretDec > 0)
+                                {
+                                    <sup>@pretDec</sup>
+                                }
+                                Lei
+                            </p>
+                            <div class="nrBuc">
+                                <span onclick="scade(@Json.Encode(procesor.Value),'procesoare')"><img src="~/Imagini/minus.png" /></span>
+                                <input disabled id="nrBuc" type="text" value=@procesor.Key style="width:50px;text-align: center;">
+                                <span onclick="adauga(@Json.Encode(procesor.Value),'procesoare')"><img src="~/Imagini/plus.png" /></span>
                             </div>
-                            <div class="cumpara">
-                                <p class="pret">
-                                    @pretInt
-                                    @if (pretDec > 0)
-                                    {
-                                        <sup>@pretDec</sup>
-                                    }
-                                    Lei
-                                </p>
-                                <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {id = procesor.Id,categorie = "procesoare",nrBuc = 1})">Stergere produs</a>
-                            </div>
+                            <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {idProdus = procesor.Value.Id,categorie = "procesoare",nrBuc = procesor.Key})">Stergere produs</a>
                         </div>
                     </div>
-                }
+                </div>
             }
-            @if (Model.gpu.Count > 0)
-            {
-                foreach (var placaVideo in Model.gpu)
-                {
-                    pretTotal += placaVideo.Pret;
-                    var pretInt = (int)placaVideo.Pret;
-                    var pretDec = (int)((placaVideo.Pret - Math.Floor(placaVideo.Pret)) * 100);
 
-                    <div class="produs">
-                        <div class="img">
-                            <img src="~/@placaVideo.imgLink" />
+        }
+    }
+    @if (Model.gpu.Count > 0)
+    {
+        foreach (var listaPlaciVideo in Model.gpu)
+        {
+            foreach (var placaVideo in listaPlaciVideo)
+            {
+                var pret = placaVideo.Value.Pret * placaVideo.Key;
+                pretTotal += pret;
+                var pretInt = (int)pret;
+                var pretDec = (int)((placaVideo.Value.Pret - Math.Floor(placaVideo.Value.Pret)) * 100);
+
+                <div class="produs">
+                    <div class="img">
+                        <img src="~/@placaVideo.Value.imgLink" />
+                    </div>
+                    <div class="text">
+                        <h1>@Html.ActionLink(placaVideo.Value.Nume, "Vizualizare", "PlaciVideo", new { id = placaVideo.Value.Id }, null)</h1>
+                        <div class="detalii">
+                            <p>Vandut de :HardwareShop</p>
                         </div>
-                        <div class="text">
-                            <h1>@Html.ActionLink(placaVideo.Nume, "Vizualizare", "PlaciVideo", new { id = placaVideo.Id }, null)</h1>
-                            <div class="detalii">
-                                <p>Vandut de :HardwareShop</p>
+                        <div class="cumpara">
+                            <p class="pret">
+                                @pretInt
+                                @if (pretDec > 0)
+                                {
+                                    <sup>@pretDec</sup>
+                                }
+                                Lei
+                            </p>
+                            <div class="nrBuc">
+                                <span onclick="scade(@Json.Encode(placaVideo.Value),'placiVideo')"><img src="~/Imagini/minus.png" /></span>
+                                <input disabled id="nrBuc" type="text" value=@placaVideo.Key style="width:50px;text-align: center;">
+                                <span onclick="adauga(@Json.Encode(placaVideo.Value),'placiVideo')"><img src="~/Imagini/plus.png" /></span>
                             </div>
-                            <div class="cumpara">
-                                <p class="pret">
-                                    @pretInt
-                                    @if (pretDec > 0)
-                                    {
-                                        <sup>@pretDec</sup>
-                                    }
-                                    Lei
-                                </p>
-                                <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {id = placaVideo.Id,categorie = "placiVideo",nrBuc = 1})">Stergere produs</a>
-                            </div>
+                            <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {idProdus = placaVideo.Value.Id,categorie = "placiVideo",nrBuc = placaVideo.Key})">Stergere produs</a>
                         </div>
                     </div>
-                }
+                </div>
             }
-            @if (Model.placuteRAM.Count > 0)
+
+        }
+    }
+    @if (Model.placuteRAM.Count > 0)
+    {
+        foreach (var listaPlacuteRAM in Model.placuteRAM)
+        {
+            foreach (var placutaRAM in listaPlacuteRAM)
             {
-                foreach (var placutaRAM in Model.placuteRAM)
-                {
-                    pretTotal += placutaRAM.Pret;
-                    var pretInt = (int)placutaRAM.Pret;
-                    var pretDec = (int)((placutaRAM.Pret - Math.Floor(placutaRAM.Pret)) * 100);
+                var pret = placutaRAM.Value.Pret * placutaRAM.Key;
+                pretTotal += pret;
+                var pretInt = (int)pret;
+                var pretDec = (int)((pret - Math.Floor(pret)) * 100);
 
 
-                    <div class="produs">
-                        <div class="img">
-                            <img src="~/@placutaRAM.imgLink" />
+                <div class="produs">
+                    <div class="img">
+                        <img src="~/@placutaRAM.Value.imgLink" />
+                    </div>
+                    <div class="text">
+                        <h1>@Html.ActionLink(placutaRAM.Value.Nume, "Vizualizare", "PlacuteRAM", new { idProdus = placutaRAM.Value.Id }, null)</h1>
+                        <div class="detalii">
+                            <p>Vandut de :HardwareShop</p>
                         </div>
-                        <div class="text">
-                            <h1>@Html.ActionLink(placutaRAM.Nume, "Vizualizare", "PlacuteRAM", new { id = placutaRAM.Id }, null)</h1>
-                            <div class="detalii">
-                                <p>Vandut de :HardwareShop</p>
+                        <div class="cumpara">
+                            <p class="pret">
+                                @pretInt
+                                @if (pretDec > 0)
+                                {
+                                    <sup>@pretDec</sup>
+                                }
+                                Lei
+                            </p>
+                            <div class="nrBuc">
+                                <span onclick="scade(@Json.Encode(placutaRAM.Value),'placuteRAM')"><img src="~/Imagini/minus.png" /></span>
+                                <input disabled id="nrBuc" type="text" value=@placutaRAM.Key style="width:50px;text-align: center;">
+                                <span onclick="adauga(@Json.Encode(placutaRAM.Value),'placuteRAM')"><img src="~/Imagini/plus.png" /></span>
                             </div>
-                            <div class="cumpara">
-                                <p class="pret">
-                                    @pretInt
-                                    @if (pretDec > 0)
-                                    {
-                                        <sup>@pretDec</sup>
-                                    }
-                                    Lei
-                                </p>
-                                <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {id = placutaRAM.Id,categorie = "placuteRAM",nrBuc = 1})">Stergere produs</a>
-                            </div>
+                            <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {idProdus = placutaRAM.Value.Id,categorie = "placuteRAM",nrBuc = placutaRAM.Key})">Stergere produs</a>
                         </div>
                     </div>
-                }
+                </div>
             }
 
-            @if (Model.unitatiDeStocare.Count > 0)
-            {
-                foreach (var unitate in Model.unitatiDeStocare)
-                {
-                    pretTotal += unitate.Pret;
-                    var pretInt = (int)unitate.Pret;
-                    var pretDec = (int)((unitate.Pret - Math.Floor(unitate.Pret)) * 100);
+        }
+    }
 
-                    <div class="produs">
-                        <div class="img">
-                            <img src="~/@unitate.imgLink" />
+    @if (Model.unitatiDeStocare.Count > 0)
+    {
+        foreach (var listaUnitatiStocare in Model.unitatiDeStocare)
+        {
+            foreach (var unitate in listaUnitatiStocare)
+            {
+                var pret = unitate.Value.Pret * unitate.Key;
+                pretTotal += pret;
+                var pretInt = (int)pret;
+                var pretDec = (int)((pret - Math.Floor(pret)) * 100);
+
+                <div class="produs">
+                    <div class="img">
+                        <img src="~/@unitate.Value.imgLink" />
+                    </div>
+                    <div class="text">
+                        <h1>@Html.ActionLink(unitate.Value.Nume, "Vizualizare", "UnitatiStocare", new { idProdus = unitate.Value.Id }, null)</h1>
+                        <div class="detalii">
+                            <p>Vandut de :HardwareShop</p>
                         </div>
-                        <div class="text">
-                            <h1>@Html.ActionLink(unitate.Nume, "Vizualizare", "UnitatiStocare", new { id = unitate.Id }, null)</h1>
-                            <div class="detalii">
-                                <p>Vandut de :HardwareShop</p>
+                        <div class="cumpara">
+                            <p class="pret">
+                                @pretInt
+                                @if (pretDec > 0)
+                                {
+                                    <sup>@pretDec</sup>
+                                }
+                                Lei
+                            </p>
+                            <div class="nrBuc">
+                                <span onclick="scade(@Json.Encode(unitate.Value),'unitatiDeStocare')"><img src="~/Imagini/minus.png" /></span>
+                                <input disabled id="nrBuc" type="text" value=@unitate.Key style="width:50px;text-align: center;">
+                                <span onclick="adauga(@Json.Encode(unitate.Value),'unitatiDeStocare')"><img src="~/Imagini/plus.png" /></span>
                             </div>
-                            <div class="cumpara">
-                                <p class="pret">
-                                    @pretInt
-                                    @if (pretDec > 0)
-                                    {
-                                        <sup>@pretDec</sup>
-                                    }
-                                    Lei
-                                </p>
-                                <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {id = unitate.Id,categorie = "unitatiDeStocare",nrBuc = 1})">Stergere produs</a>
-                            </div>
+                            <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {idProdus = unitate.Value.Id,categorie = "unitatiDeStocare",nrBuc = unitate.Key})">Stergere produs</a>
                         </div>
                     </div>
-                }
+                </div>
             }
-            @if (Model.psu.Count > 0)
-            {
-                foreach (var sursa in Model.psu)
-                {
-                    pretTotal += sursa.Pret;
-                    var pretInt = (int)sursa.Pret;
-                    var pretDec = (int)((sursa.Pret - Math.Floor(sursa.Pret)) * 100);
 
-                    <div class="produs">
-                        <div class="img">
-                            <img src="~/@sursa.imgLink" />
+        }
+    }
+    @if (Model.psu.Count > 0)
+    {
+        foreach (var listaSurse in Model.psu)
+        {
+            foreach (var sursa in listaSurse)
+            {
+                var pret = sursa.Value.Pret * sursa.Key;
+                pretTotal += pret;
+                var pretInt = (int)pret;
+                var pretDec = (int)((pret - Math.Floor(pret)) * 100);
+
+                <div class="produs">
+                    <div class="img">
+                        <img src="~/@sursa.Value.imgLink" />
+                    </div>
+                    <div class="text">
+                        <h1>@Html.ActionLink(sursa.Value.Nume, "Vizualizare", "SurseDeAlimentare", new { id = sursa.Value.Id }, null)</h1>
+                        <div class="detalii">
+                            <p>Vandut de :HardwareShop</p>
                         </div>
-                        <div class="text">
-                            <h1>@Html.ActionLink(sursa.Nume, "Vizualizare", "SurseDeAlimentare", new { id = sursa.Id }, null)</h1>
-                            <div class="detalii">
-                                <p>Vandut de :HardwareShop</p>
+                        <div class="cumpara">
+                            <p class="pret">
+                                @pretInt
+                                @if (pretDec > 0)
+                                {
+                                    <sup>@pretDec</sup>
+                                }
+                                Lei
+                            </p>
+                            <div class="nrBuc">
+                                <span onclick="scade(@Json.Encode(sursa.Value),'surseDeAlimentare')"><img src="~/Imagini/minus.png" /></span>
+                                <input disabled id="nrBuc" type="text" value=@sursa.Key style="width:50px;text-align: center;">
+                                <span onclick="adauga(@Json.Encode(sursa.Value),'surseDeAlimentare')"><img src="~/Imagini/plus.png" /></span>
                             </div>
-                            <div class="cumpara">
-                                <p class="pret">
-                                    @pretInt
-                                    @if (pretDec > 0)
-                                    {
-                                        <sup>@pretDec</sup>
-                                    }
-                                    Lei
-                                </p>
-                                <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {id = sursa.Id,categorie = "surseDeAlimentare",nrBuc = 1})">Stergere produs</a>
-                            </div>
+                            <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {idProdus = sursa.Value.Id,categorie = "surseDeAlimentare",nrBuc = sursa.Key})">Stergere produs</a>
                         </div>
                     </div>
-                }
+                </div>
             }
-            @if (Model.pastaCPU.Count > 0)
-            {
-                foreach (var pasta in Model.pastaCPU)
-                {
-                    pretTotal += pasta.Pret;
-                    var pretInt = (int)pasta.Pret;
-                    var pretDec = (int)((pasta.Pret - Math.Floor(pasta.Pret)) * 100);
 
-                    <div class="produs">
-                        <div class="img">
-                            <img src="~/@pasta.imgLink" />
+        }
+    }
+    @if (Model.pastaCPU.Count > 0)
+    {
+        foreach (var listaPaste in Model.pastaCPU)
+        {
+            foreach (var pasta in listaPaste)
+            {
+                var pret = pasta.Value.Pret * pasta.Key;
+                pretTotal += pret;
+                var pretInt = (int)pret;
+                var pretDec = (int)((pret - Math.Floor(pret)) * 100);
+
+                <div class="produs">
+                    <div class="img">
+                        <img src="~/@pasta.Value.imgLink" />
+                    </div>
+                    <div class="text">
+                        <h1>@Html.ActionLink(pasta.Value.Nume, "Vizualizare", "PastaProcesor", new { id = pasta.Value.Id }, null)</h1>
+                        <div class="detalii">
+                            <p>Vandut de :HardwareShop</p>
                         </div>
-                        <div class="text">
-                            <h1>@Html.ActionLink(pasta.Nume, "Vizualizare", "PastaProcesor", new { id = pasta.Id }, null)</h1>
-                            <div class="detalii">
-                                <p>Vandut de :HardwareShop</p>
+                        <div class="cumpara">
+                            <p class="pret">
+                                @pretInt
+                                @if (pretDec > 0)
+                                {
+                                    <sup>@pretDec</sup>
+                                }
+                                Lei
+                            </p>
+                            <div class="nrBuc">
+                                <span onclick="scade(@Json.Encode(pasta.Value),'pastaCPU')"><img src="~/Imagini/minus.png" /></span>
+                                <input disabled id="nrBuc" type="text" value=@pasta.Key style="width:50px;text-align: center;">
+                                <span onclick="adauga(@Json.Encode(pasta.Value),'pastaCPU')"><img src="~/Imagini/plus.png" /></span>
                             </div>
-                            <div class="cumpara">
-                                <p class="pret">
-                                    @pretInt
-                                    @if (pretDec > 0)
-                                    {
-                                        <sup>@pretDec</sup>
-                                    }
-                                    Lei
-                                </p>
-                                <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {id = pasta.Id,categorie = "pastaCPU",nrBuc = 1})">Stergere produs</a>
-                            </div>
+                            <a class="adaugaProdus" href="@Url.Action("Sterge","Cos",new {idProdus = pasta.Value.Id,categorie = "pastaCPU",nrBuc = pasta.Key})">Stergere produs</a>
                         </div>
                     </div>
-                }
+                </div>
             }
-        </div>
+
+        }
+    }
+</div>
         <div class="sumarComanda">
             @{
                 var pretIntreg = (int)pretTotal;
@@ -321,7 +401,7 @@
                     Lei
                 </p>
             </div>
-            <a href="@Url.Action("DetaliiComanda","Comanda")">Continua</a>
+            <a id="continuaComanda" href="@Url.Action("DetaliiComanda","Comanda",new {pret = pretTotal,listaProduse = Model})">Continua</a>
         </div>
     }
 </main>
@@ -329,5 +409,28 @@
     function stergeMesaj() {
         var mesaj = document.getElementsByClassName("cosGol");
         mesaj[0].style.opacity = "0";
+    }
+    function scade(produs, categorie) {
+        var nrBuc = "1";
+        var idProdus = produs.Id;
+        var url = `/Cos/Sterge?idProdus=${encodeURIComponent(idProdus)}&categorie=${encodeURIComponent(categorie)}&nrBuc=${encodeURIComponent(nrBuc)}`;
+        window.location.href = url;
+    }
+    function adauga(produs, categorie) {
+        var nrBucInput = document.getElementById("nrBuc");
+        var comanda = document.getElementById("continuaComanda");
+        var idProdus = produs.Id;
+        var nrBuc = "1";
+        var viewName = "cosCumparaturi";
+        var url = `/Cos/Adauga?idProdus=${encodeURIComponent(idProdus)}&categorie=${encodeURIComponent(categorie)}&nrBuc=${encodeURIComponent(nrBuc)}&viewName=${encodeURIComponent(viewName)}`;
+        if (produs.stoc == 0) {
+            comanda.style.background = "white";
+            comanda.style.color = "red";
+            comanda.textContent = "Stoc epuizat";
+            comanda.href = "#";
+        }
+        else {
+            window.location.href = url;
+        }
     }
 </script>

@@ -38,9 +38,9 @@ namespace HardwareShop.Controllers
             }
         }
 
-        public ActionResult Vizualizare(int id)
+        public ActionResult Vizualizare(int idProdus)
         {
-            var placutaRAM = context.placuteRAM.SingleOrDefault(p => p.Id == id);
+            var placutaRAM = context.placuteRAM.SingleOrDefault(p => p.Id == idProdus);
             return View(placutaRAM);
         }
         public ActionResult Adauga()

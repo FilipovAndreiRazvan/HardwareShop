@@ -226,9 +226,91 @@
     <Compile Include="Migrations\202405221750589_addComandaTable1.Designer.cs">
       <DependentUpon>202405221750589_addComandaTable1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202405261126399_addNrBucToCosCumparaturi.cs" />
+    <Compile Include="Migrations\202405261126399_addNrBucToCosCumparaturi.Designer.cs">
+      <DependentUpon>202405261126399_addNrBucToCosCumparaturi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202405261257506_modificare3.cs" />
+    <Compile Include="Migrations\202405261257506_modificare3.Designer.cs">
+      <DependentUpon>202405261257506_modificare3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202405261717320_modificare4.cs" />
+    <Compile Include="Migrations\202405261717320_modificare4.Designer.cs">
+      <DependentUpon>202405261717320_modificare4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202405261801102_modificare5.cs" />
+    <Compile Include="Migrations\202405261801102_modificare5.Designer.cs">
+      <DependentUpon>202405261801102_modificare5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202405261821044_modificare6.cs" />
+    <Compile Include="Migrations\202405261821044_modificare6.Designer.cs">
+      <DependentUpon>202405261821044_modificare6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202405261838416_modificare7.cs" />
+    <Compile Include="Migrations\202405261838416_modificare7.Designer.cs">
+      <DependentUpon>202405261838416_modificare7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202405271353209_modificare8.cs" />
+    <Compile Include="Migrations\202405271353209_modificare8.Designer.cs">
+      <DependentUpon>202405271353209_modificare8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202405271410139_modificare9.cs" />
+    <Compile Include="Migrations\202405271410139_modificare9.Designer.cs">
+      <DependentUpon>202405271410139_modificare9.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202405281724529_modificare10.cs" />
+    <Compile Include="Migrations\202405281724529_modificare10.Designer.cs">
+      <DependentUpon>202405281724529_modificare10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406080523129_modifyCardTable.cs" />
+    <Compile Include="Migrations\202406080523129_modifyCardTable.Designer.cs">
+      <DependentUpon>202406080523129_modifyCardTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406081039156_addFacturaTable.cs" />
+    <Compile Include="Migrations\202406081039156_addFacturaTable.Designer.cs">
+      <DependentUpon>202406081039156_addFacturaTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406081050133_modify.cs" />
+    <Compile Include="Migrations\202406081050133_modify.Designer.cs">
+      <DependentUpon>202406081050133_modify.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406081057378_addProduseComandateTAble.cs" />
+    <Compile Include="Migrations\202406081057378_addProduseComandateTAble.Designer.cs">
+      <DependentUpon>202406081057378_addProduseComandateTAble.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406081059016_modify1.cs" />
+    <Compile Include="Migrations\202406081059016_modify1.Designer.cs">
+      <DependentUpon>202406081059016_modify1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406081101489_modify2.cs" />
+    <Compile Include="Migrations\202406081101489_modify2.Designer.cs">
+      <DependentUpon>202406081101489_modify2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406081357069_modify3.cs" />
+    <Compile Include="Migrations\202406081357069_modify3.Designer.cs">
+      <DependentUpon>202406081357069_modify3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406081414323_modify4.cs" />
+    <Compile Include="Migrations\202406081414323_modify4.Designer.cs">
+      <DependentUpon>202406081414323_modify4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406101141093_modify5.cs" />
+    <Compile Include="Migrations\202406101141093_modify5.Designer.cs">
+      <DependentUpon>202406101141093_modify5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406101157296_modify6.cs" />
+    <Compile Include="Migrations\202406101157296_modify6.Designer.cs">
+      <DependentUpon>202406101157296_modify6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406101314120_modify7.cs" />
+    <Compile Include="Migrations\202406101314120_modify7.Designer.cs">
+      <DependentUpon>202406101314120_modify7.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\AdaugaProdus.cs" />
+    <Compile Include="Models\Factura.cs" />
+    <Compile Include="Models\ProduseComandate.cs" />
+    <Compile Include="ViewModels\AdaugaProdusViewModel.cs" />
     <Compile Include="Models\AdresaLivrare.cs" />
     <Compile Include="Models\BrandUser.cs" />
     <Compile Include="Models\Carcasa.cs" />
@@ -249,6 +331,10 @@
     <Compile Include="Models\UnitatiDeStocare.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\CosCumparaturiViewModel.cs" />
+    <Compile Include="ViewModels\DetaliiComandaViewModel.cs" />
+    <Compile Include="ViewModels\PlataViewModel.cs" />
+    <Compile Include="ViewModels\ProduseFavoriteViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\AdaugaProdus.css" />
@@ -270,9 +356,12 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\CosCumparaturi.css" />
     <Content Include="Content\DetaliiComanda.css" />
+    <Content Include="Content\Facturare.css" />
     <Content Include="Content\HomePage.css" />
     <Content Include="Content\IndexCategorie.css" />
+    <Content Include="Content\Livrare.css" />
     <Content Include="Content\LoginRegister.css" />
+    <Content Include="Content\Plata.css" />
     <Content Include="Content\VizualizareProdus.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -283,6 +372,7 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\Finalizare.css" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -360,6 +450,11 @@
     <Content Include="Views\SurseDeAlimentare\Adauga.cshtml" />
     <Content Include="Views\PastaProcesor\Adauga.cshtml" />
     <Content Include="Views\Comanda\DetaliiComanda.cshtml" />
+    <Content Include="Views\Shared\_ProgresComanda.cshtml" />
+    <Content Include="Views\Shared\_Facturare.cshtml" />
+    <Content Include="Views\Shared\_Livrare.cshtml" />
+    <Content Include="Views\Shared\_Plata.cshtml" />
+    <Content Include="Views\Shared\_Finalizare.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -422,6 +517,66 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202405221750589_addComandaTable1.resx">
       <DependentUpon>202405221750589_addComandaTable1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202405261126399_addNrBucToCosCumparaturi.resx">
+      <DependentUpon>202405261126399_addNrBucToCosCumparaturi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202405261257506_modificare3.resx">
+      <DependentUpon>202405261257506_modificare3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202405261717320_modificare4.resx">
+      <DependentUpon>202405261717320_modificare4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202405261801102_modificare5.resx">
+      <DependentUpon>202405261801102_modificare5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202405261821044_modificare6.resx">
+      <DependentUpon>202405261821044_modificare6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202405261838416_modificare7.resx">
+      <DependentUpon>202405261838416_modificare7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202405271353209_modificare8.resx">
+      <DependentUpon>202405271353209_modificare8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202405271410139_modificare9.resx">
+      <DependentUpon>202405271410139_modificare9.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202405281724529_modificare10.resx">
+      <DependentUpon>202405281724529_modificare10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406080523129_modifyCardTable.resx">
+      <DependentUpon>202406080523129_modifyCardTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406081039156_addFacturaTable.resx">
+      <DependentUpon>202406081039156_addFacturaTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406081050133_modify.resx">
+      <DependentUpon>202406081050133_modify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406081057378_addProduseComandateTAble.resx">
+      <DependentUpon>202406081057378_addProduseComandateTAble.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406081059016_modify1.resx">
+      <DependentUpon>202406081059016_modify1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406081101489_modify2.resx">
+      <DependentUpon>202406081101489_modify2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406081357069_modify3.resx">
+      <DependentUpon>202406081357069_modify3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406081414323_modify4.resx">
+      <DependentUpon>202406081414323_modify4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406101141093_modify5.resx">
+      <DependentUpon>202406101141093_modify5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406101157296_modify6.resx">
+      <DependentUpon>202406101157296_modify6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406101314120_modify7.resx">
+      <DependentUpon>202406101314120_modify7.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

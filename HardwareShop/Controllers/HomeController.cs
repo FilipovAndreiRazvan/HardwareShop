@@ -22,7 +22,7 @@ namespace HardwareShop.Controllers
         public ActionResult Index(bool adaugaProdusCos = false, bool adaugaProdusFavorit = false)
         {
             var userId = User.Identity.GetUserId();
-            var produsAdaugat = new AdaugaProdus()
+            var produsAdaugat = new AdaugaProdusViewModel()
             {
                 cosCumparaturi = adaugaProdusCos,
                 listaFavorite = adaugaProdusFavorit,

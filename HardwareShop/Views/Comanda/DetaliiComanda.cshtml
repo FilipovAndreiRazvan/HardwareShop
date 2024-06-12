@@ -1,77 +1,37 @@
-﻿@model HardwareShop.Models.Comanda
+﻿@model HardwareShop.ViewModels.DetaliiComandaViewModel
 @{
     ViewBag.Title = "Detalii comanda";
+    //Layout = null;
 }
-
 <link rel="stylesheet" href="~/Content/DetaliiComanda.css" type="text/css" />
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title</h2>
-    @using (Html.BeginForm("Salvare", "Carcase", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
-    {
-        @Html.ValidationSummary(true, "Please fix the following errors.")
-        <div class="fields">
-            <div class="field">
-                @Html.LabelFor(m => m.adresa.Oras, new { @class = "col-form-label" })
-                <div class="input">
-                    @Html.TextBoxFor(m => m.adresa.Oras, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.adresa.Oras, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="field">
-                @Html.LabelFor(m => m.adresa.Localitate, new { @class = "col-form-label" })
-                <div class="input">
-                    @Html.TextBoxFor(m => m.adresa.Localitate, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.adresa.Localitate, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="field">
-                @Html.LabelFor(m => m.adresa.Strada, new { @class = "col-form-label" })
-                <div class="input">
-                    @Html.TextBoxFor(m => m.adresa.Strada, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.adresa.Strada, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="field">
-                @Html.LabelFor(m => m.adresa.bloc, new { @class = "col-form-label" })
-                <div class="input">
-                    @Html.TextBoxFor(m => m.adresa.bloc, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.adresa.bloc, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="field">
-                @Html.LabelFor(m => m.adresa.numar, new { @class = " col-form-label" })
-                <div class="input">
-                    @Html.TextBoxFor(m => m.adresa.numar,new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.adresa.numar, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="field">
-                @Html.LabelFor(m => m.card.numeDetinator, new { @class = "col-form-label" })
-                <div class="input">
-                    @Html.TextBoxFor(m => m.card.numeDetinator, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.card.numeDetinator, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="field">
-                @Html.LabelFor(m => m.card.nrCard, new { @class = "col-form-label" })
-                <div class="input">
-                    @Html.TextBoxFor(m => m.card.nrCard, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.card.nrCard, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="field">
-                @Html.LabelFor(m => m.card.CVC, new { @class = "col-form-label" })
-                <div class="input">
-                    @Html.TextBoxFor(m => m.card.CVC, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.card.CVC, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="button" style="margin-top:20px">
-            <input type="submit" value="Adauga" class=" submit btn btn-outline-dark" />
-        </div>
+<style>
+    .navbar {
+        display: none;
+        background-color: red;
     }
-</main>
+
+    main {
+        background-color: #6DD6FA;
+    }
+</style>
+@Html.Partial("_ProgresComanda", Model)
+<h1 class="titluEtapa">@Model.etapa</h1>
+@if (Model.etapa == "Facturare")
+{
+    @Html.Partial("_Facturare", Model.comanda)
+}
+else if (Model.etapa == "Livrare")
+{
+    @Html.Partial("_Livrare", Model.comanda)
+}
+else if (Model.etapa == "Plata")
+{
+    @Html.Partial("_Plata", Model)
+}
+else
+{
+    @Html.Partial("_Finalizare")
+}
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
