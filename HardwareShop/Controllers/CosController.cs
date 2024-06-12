@@ -117,8 +117,6 @@ namespace HardwareShop.Controllers
         public ActionResult Adauga(int id, string categorie, int nrBuc)
         {
 
-            for (int i = 0; i < nrBuc; i++)
-            {
                 var cos = new CosCumparaturi();
                 cos.categorie = categorie;
                 cos.idProdus = id;
@@ -156,7 +154,6 @@ namespace HardwareShop.Controllers
                         break;
                 }
                 context.cos.Add(cos);
-            }
             context.SaveChanges();
             return RedirectToAction("Index", "Home", new { adaugaProdusCos = true });
         }
