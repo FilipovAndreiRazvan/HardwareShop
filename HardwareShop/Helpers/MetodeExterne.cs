@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Web.Mvc;
 using HardwareShop.ViewModels;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Drawing.Drawing2D;
 
 namespace HardwareShop.Models
 {
@@ -18,44 +19,44 @@ namespace HardwareShop.Models
             context = _context;
         }
         // GET: MetodeExterne
-        public  void AdaugareProdus(Carcasa carcasa = null, PastaCPU pastaCpu = null, Motherboard placaBaza = null, GPU placaVideo = null, PlacutaRAM placuteRAM = null, CPU procesor = null, PSU sursa = null, UnitatiDeStocare stocare = null)
+        public  void AdaugareProdus(object produs)
         {
-            if (carcasa != null)
+            if (produs is Carcasa carcasa)
             {
                 carcasa.Produs.ImgLink = "Imagini/Carcase/" + carcasa.Produs.ImgLink;
                 context.carcase.Add(carcasa);
             }
-            else if (pastaCpu != null)
+            else if (produs is PastaCPU pastaCpu)
             {
                 pastaCpu.Produs.ImgLink = "Imagini/PasteProcesor/" + pastaCpu.Produs.ImgLink;
                 context.pasteProcesor.Add(pastaCpu);
             }
-            else if (placaBaza != null)
+            else if (produs is Motherboard placaBaza)
             {
                 placaBaza.Produs.ImgLink = "Imagini/PlaciDeBaza/" + placaBaza.Produs.ImgLink;
                 context.placiDeBaza.Add(placaBaza);
             }
-            else if (placaVideo != null)
+            else if (produs is GPU placaVideo)
             {
                 placaVideo.Produs.ImgLink = "Imagini/PlaciVideo/" + placaVideo.Produs.ImgLink;
                 context.placiVideo.Add(placaVideo);
             }
-            else if (placuteRAM != null)
+            else if (produs is PlacutaRAM placuteRAM)
             {
                 placuteRAM.Produs.ImgLink = "Imagini/PlacuteRAM/" + placuteRAM.Produs.ImgLink;
                 context.placuteRAM.Add(placuteRAM);
             }
-            else if (procesor != null)
+            else if (produs is CPU procesor)
             {
                 procesor.Produs.ImgLink = "Imagini/Procesoare/" + procesor.Produs.ImgLink;
                 context.procesoare.Add(procesor);
             }
-            else if (sursa != null)
+            else if (produs is PSU sursa)
             {
                 sursa.Produs.ImgLink = "Imagini/SursePC/" + sursa.Produs.ImgLink;
                 context.surse.Add(sursa);
             }
-            else if (stocare != null)
+            else if (produs is UnitatiDeStocare stocare)
             {
                 stocare.Produs.ImgLink = "Imagini/UnitatiDeStocare/" + stocare.Produs.ImgLink;
                 context.stocare.Add(stocare);
@@ -371,5 +372,99 @@ namespace HardwareShop.Models
                 stocare.Interfata = model.Stocare .Interfata;
             }
         }
+
+        public AdaugaProdusViewModel CompletareModel(object produs, AdaugaProdusViewModel model)
+        {
+            switch (produs)
+            {
+                case Carcasa carcasa:
+                    model.Carcasa = carcasa;
+                    model.Produs = carcasa.Produs;
+                    break;
+                case PastaCPU pasta:
+                    model.Pasta = pasta;
+                    model.Produs = pasta.Produs;
+                    break;
+                case Motherboard placaDeBaza:
+                    model.PlacaDeBaza = placaDeBaza;
+                    model.Produs = placaDeBaza.Produs;
+                    break;
+                case GPU placaVideo:
+                    model.PlacaVideo = placaVideo;
+                    model.Produs = placaVideo.Produs;
+                    break;
+                case PlacutaRAM placutaRAM:
+                    model.PlacutaRAM = placutaRAM;
+                    model.Produs = placutaRAM.Produs;
+                    break;
+                case CPU procesor:
+                    model.Procesor = procesor;
+                    model.Produs = procesor.Produs;
+                    break;
+                case PSU sursa:
+                    model.Sursa = sursa;
+                    model.Produs = sursa.Produs;
+                    break;
+                case UnitatiDeStocare stocare:
+                    model.Stocare = stocare;
+                    model.Produs = stocare.Produs;
+                    break;
+            }
+
+            return model;
+        }
+        public void SalvareProdus(AdaugaProdusViewModel model,Produs produs,MetodeExterne metodeExterne,BrandUser brand)
+        {
+            if (model.PlacaDeBaza != null)
+            {
+                SalvareProdusSpecific(model.PlacaDeBaza,produs,brand);
+            }
+            else if (model.Carcasa != null)
+            {
+                SalvareProdusSpecific(model.Carcasa,produs,brand);
+            }
+            else if (model.Procesor != null)
+            {
+                SalvareProdusSpecific(model.Procesor,produs,brand);
+            }
+            else if (model.Pasta != null)
+            {
+                SalvareProdusSpecific(model.Pasta,produs,brand);
+            }
+            else if (model.PlacaVideo != null)
+            {
+                SalvareProdusSpecific(model.PlacaVideo,produs,brand);
+            }
+            else if (model.PlacutaRAM != null)
+            {
+                SalvareProdusSpecific(model.PlacutaRAM, produs, brand);
+            }
+            else if (model.Sursa != null)
+            {
+                SalvareProdusSpecific(model.Sursa, produs, brand);
+            }
+            else if (model.Stocare != null)
+            {
+                SalvareProdusSpecific(model.Stocare, produs, brand);
+            }
+        }
+
+        public void SalvareProdusSpecific(object produsSpecific,Produs produs,BrandUser brand)
+        {
+            if (produs.IdProdus != 0)
+            {
+                Asociere(produs,produsSpecific,new AdaugaProdusViewModel() );
+            }
+            else
+            {
+                var product = produsSpecific as dynamic;
+                product.Produs = produs;
+                AdaugareProdus(produsSpecific);
+                produs.BrandId = brand.Id;
+                context.produse.Add(produs);
+            }
+        }
+
     }
+
 }

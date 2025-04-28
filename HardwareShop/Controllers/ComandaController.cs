@@ -5,6 +5,8 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Data.Entity;
+
 
 namespace HardwareShop.Controllers
 {
@@ -14,8 +16,11 @@ namespace HardwareShop.Controllers
         ApplicationDbContext context = new ApplicationDbContext();
         // GET: Comanda
 
-        public ActionResult DetaliiComanda(float? pret)
+        public ActionResult DetaliiComanda(float pret)
         {
+            var userId = User.Identity.GetUserId();
+            List<CosCumparaturi> listaProduse = context.cos.Include(c => c.Produs).Where(c => c.ClientId == userId).ToList();
+            Session["produseCos"] = listaProduse;
             Comanda comanda = new Comanda();
             comanda.PretComanda = (float)pret;
             var viewModel = new DetaliiComandaViewModel()
@@ -46,6 +51,7 @@ namespace HardwareShop.Controllers
             if (detaliiComanda.comanda == null || eroare != null)
             {
                 detaliiComanda.comanda = comanda;
+                detaliiComanda.card = new Card();
                 detaliiComanda.etapa = etapa;
                 return View(detaliiComanda);
             }
@@ -60,7 +66,7 @@ namespace HardwareShop.Controllers
                 return Content("Invalid data.");
             }
 
-            var listaProduse = TempData["produseCos"] as List<CosCumparaturi>;
+            var listaProduse = Session["produseCos"] as List<CosCumparaturi>;
             foreach (var item in listaProduse)
             {
                 var cos = context.cos.Find(item.Id);
@@ -68,9 +74,11 @@ namespace HardwareShop.Controllers
                 var produsComandat = new ProdusComandat
                 {
                     ProdusId = item.ProdusId,
+                    CategorieId = item.Produs.CategorieId,
                     Cantitate = item.NrBuc
                 };
                 produsComandat.ComandaId = detaliiComanda.comanda.Id;
+           
                 context.produseComandate.Add(produsComandat);
             }
 
@@ -107,7 +115,7 @@ namespace HardwareShop.Controllers
                 detaliiComanda.comanda.FacturaId = factura.Id;
                 string userId = User.Identity.GetUserId();
                 var user = context.Users.Find(userId);
-                detaliiComanda.comanda.Client.Id = user.Id;
+                detaliiComanda.comanda.ClientId = user.Id;
 
                 context.factura.Add(factura);
                 context.comanda.Add(detaliiComanda.comanda);

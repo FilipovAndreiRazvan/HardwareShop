@@ -3,7 +3,12 @@
     ViewBag.Title = "Adauga produs";
 }
 
-<link rel="stylesheet" href="~/Content/AdaugaProdus.css" type="text/css" />
+<link rel="stylesheet" href="~/Content/AdaugaProdus.css?v=1.3" type="text/css" />
+<style>
+    .adaugaProdusCos{
+        margin-top:20px;
+    }
+</style>
 <main aria-labelledby="title">
     <h2 id="title">@ViewBag.Title</h2>
     @using (Html.BeginForm("Salvare", "Servicii", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
@@ -61,11 +66,11 @@
     @{
         if (Model.Produs.IdProdus == 0)
         {
-            <input type="submit" value="Adauga" class=" submit btn btn-outline-dark" />
+            <input type="submit" value="Adauga" class=" adaugaProdusCos btn btn-outline-dark" />
         }
         else
         {
-            <input type="submit" value="Salveaza" class=" submit btn btn-outline-dark" />
+            <input type="submit" value="Salveaza" class=" adaugaProdusCos btn btn-outline-dark" />
         }
     }
 

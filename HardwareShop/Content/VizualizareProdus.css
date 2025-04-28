@@ -48,7 +48,7 @@ input {
     color: white;
     font-size: 20px;
     border-radius: 10px;
-    background-color: red;
+    background-color: #07243e;
     z-index: 1;
     position: relative;
     right: 40px;
@@ -60,15 +60,20 @@ input {
 }
 
 .disponibil {
-    color: green;
+    color: white;
 }
 
 .indisponibil {
-    color: red
+    color: red;
 }
-
+#nrBucati {
+    color:white;
+    background-color: #07243e;
+    border: 1px solid black;
+    border-radius: 20px;
+}
 .brand {
-    color: black;
+    color:white;
 }
 
 .text h3, .descriere h2, .text h4 {
@@ -100,21 +105,44 @@ body {
     margin-top: 60px;
 }
 .adaugaProdus {
+    display:block;
     width: 50%;
-    text-decoration: none;
-    color: white;
+    text-align: center;
     font-weight: 600;
-    background: #71c16a url("/Imagini/cart.svg") no-repeat 5px center;
-    background-size: 20px;
-    padding: 8px 25px;
-    padding-left: 35px;
     transition: background-color 0.5s;
-    font-size: 18px;
+    padding: 5px 8px;
+    font-size: 14px;
+    border: 2px solid #1c7dc8;
+    color: white;
+    border-radius: 10px;
+    text-decoration:none;
 }
 
 
 
     .adaugaProdus:hover {
         color: white;
-        background-color: orangered;
+        background-color: #1c7dc8;
+    }
+#produsAdaugat {
+    position: absolute;
+    right: 50px;
+    width: 300px;
+    z-index: 3;
+    opacity: 1;
+    display: block;
+    margin-bottom: 0;
+    background-color: #07243e;
+    border-radius: 10px;
+    padding: 8px;
+    padding-left: 25px;
+    color: white;
+    text-align: left;
+    transition: opacity 1.5s;
+}
+
+    #produsAdaugat img {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
     }

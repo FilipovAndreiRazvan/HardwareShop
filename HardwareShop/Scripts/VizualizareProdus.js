@@ -1,49 +1,19 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
-    const adaugaBtn = document.getElementById("adaugaLink");
-    const actualizeazaBtn = document.getElementById("actualizeazaStoc");
+﻿function redirectionare() {
+    const nrBucInput = document.getElementById("nrBucati");
+    const nrBucValue = parseInt(nrBucInput.value, 10);
 
-    // Logica pentru client
-    if (isFurnizor === false && adaugaBtn) {
-        adaugaBtn.addEventListener("click", function (e) {
-            e.preventDefault();
-            const nrBucInput = document.getElementById("nrBucati");
-            const nrBucValue = parseInt(nrBucInput.value, 10);
-
-            if (isNaN(nrBucValue) || nrBucValue <= 0) {
-                afiseazaEroare(nrBucInput, "Introduceti un numar intreg!");
-                return;
-            }
-
-            if (nrBucValue > stocProdus) {
-                alert("Stoc insuficient!");
-            } else {
-                const url = adaugaUrlTemplate.replace("__PLACEHOLDER__", encodeURIComponent(nrBucValue)).replace("amp;", "");
-                window.location.href = url;
-            }
-        });
+    if (isNaN(nrBucValue) || nrBucValue <= 0) {
+        afiseazaEroare(nrBucInput, "Introduceti un numar pozitiv!");
+        return;
     }
 
-    // Logica pentru furnizor
-    if (isFurnizor === true && actualizeazaBtn) {
-        actualizeazaBtn.addEventListener("click", function (e) {
-            e.preventDefault();
-
-            const stocNouInput = document.getElementById("stocNou");
-            const stocExistentInput = document.getElementById("stocExistent");
-
-            const stocNou = parseInt(stocNouInput.value, 10);
-            const stocExistent = parseInt(stocExistentInput.value, 10);
-
-            if (isNaN(stocNou) || stocNou <= 0 || stocNou <= stocExistent) {
-                alert("Stocul nou trebuie sa fie un număr valid și mai mare decât cel existent!");
-            } else {
-                const url = actualizareStocUrlTemplate.replace("__PLACEHOLDER__", encodeURIComponent(stocNou)).replace("amp;", "");
-                window.location.href = url;
-            }
-        });
+    if (nrBucValue > stocProdus) {
+        alert("Stoc insuficient!");
+    } else {
+        const url = adaugaUrlTemplate.replace("__PLACEHOLDER__", encodeURIComponent(nrBucValue)).replaceAll("amp;", "");
+        window.location.href = url;
     }
-});
-
+}
 function calculeazaPretTotal(input) {
     const pretTotalElement = document.getElementById("pretTotal");
     const pretIntregElement = document.getElementById("pretIntreg");
@@ -65,9 +35,9 @@ function calculeazaPretTotal(input) {
 
         input.style.borderColor = "black";
         document.getElementById("wrongInput").style.opacity = 0;
-        if (adaugaBtn) adaugaBtn.style.display = "inline";
+        if (adaugaBtn) adaugaBtn.style.display = "block";
     } else {
-        afiseazaEroare(input, "Introduceti un numar intreg!");
+        afiseazaEroare(input, "Introduceti un numar pozitiv!");
         if (adaugaBtn) adaugaBtn.style.display = "none";
         document.getElementById("wrongInput").style.opacity = 1;
     }
@@ -87,7 +57,7 @@ function validareInput(input) {
     const valoare = input.value.trim();
     const eroare = document.getElementById("wrongInput");
 
-    eroare.textContent = "Introduceti un numar intreg!";
+    eroare.textContent = "Introduceti un numar pozitiv!";
     eroare.style.textAlign = "center";
 
     if (!esteNumarIntregValid(valoare) || valoare == "0" || valoare[0] == "0") {

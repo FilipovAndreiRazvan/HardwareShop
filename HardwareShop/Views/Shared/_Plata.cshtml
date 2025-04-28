@@ -1,67 +1,98 @@
 ﻿@model HardwareShop.ViewModels.DetaliiComandaViewModel
 
-<link rel="stylesheet" href="~/Content/AdaugaProdus.css" type="text/css" />
+<link rel="stylesheet" href="~/Content/AdaugaProdus.css?v=1.1" type="text/css" />
 <style>
-    body {
-        background: white;
+  main{
+      padding-top:100px;
+  }
+    .adaugaProdusCos{
+        margin-top:20px;
     }
-
-    .fields {
-        grid-template-columns: auto auto;
-        justify-content: space-around;
-    }
-
-    main {
-        background-color: #6DD6FA;
-        width: 60%;
-        margin-top: -50px;
-        margin-bottom: 100px;
+    .eroare {
+        margin-top:50px;
+        left: 20%;
+        z-index:1;
+        position: absolute;
     }
 </style>
 @{
-    string eroare = Session["eroarePlata"] as string;
+    string eroare = TempData["eroarePlata"] as string;
     if (eroare == "Card inexistent")
     {
-        <p>Detaliile cardului nu se potrivesc!</p>
+        <p class="eroare">Detaliile cardului nu se potrivesc!</p>
     }
     else if (eroare == "Sold insuficient")
     {
-        <p>Soldul disponibil este insuficient!</p>
+        <p class="eroare">Soldul disponibil este insuficient!</p>
     }
 
 }
 <main>
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            <ul>
+                @foreach (var state in ViewData.ModelState)
+                {
+                    if (state.Value.Errors.Count > 0)
+                    {
+                        <li>@state.Key: @string.Join(", ", state.Value.Errors.Select(e => e.ErrorMessage))</li>
+                    }
+                    else
+                    {
+                        <li>@state.Key: (fara eroare text, dar invalid)</li>
+                    }
+                }
+            </ul>
+        </div>
+    }
+
     @using (Html.BeginForm("DetaliiComanda", "Comanda", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
     {
         @Html.ValidationSummary(true, "Please fix the following errors.")
-        <div class="fields">
-            <div class="field">
-                @Html.LabelFor(m => m.card.numeDetinator, new { @class = "col-form-label" })
-                <div class="input">
-                    @Html.TextBoxFor(m => m.card.numeDetinator, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.card.numeDetinator, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="field">
-                @Html.LabelFor(m => m.card.nrCard, new { @class = "col-form-label" })
-                <div class="input">
-                    @Html.TextBoxFor(m => m.card.nrCard, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.card.nrCard, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="field">
-                @Html.LabelFor(m => m.card.CVC, new { @class = "col-form-label" })
-                <div class="input">
-                    @Html.TextBoxFor(m => m.card.CVC, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.card.CVC, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            @Html.HiddenFor(m => m.comanda.AdresaJson)
-            @Html.HiddenFor(m => m.comanda.FacturaJson)
-            @Html.HiddenFor(m => m.comanda.pretComandaJson)
+<div class="fields">
+    <div class="field">
+        @Html.LabelFor(m => m.card.NumeDetinator, new { @class = "col-form-label" })
+        <div class="input">
+            @Html.TextBoxFor(m => m.card.NumeDetinator, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.card.NumeDetinator, "", new { @class = "text-danger" })
         </div>
+    </div>
+    <div class="field">
+        @Html.LabelFor(m => m.card.NrCard, new { @class = "col-form-label" })
+        <div class="input">
+            @Html.TextBoxFor(m => m.card.NrCard, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.card.NrCard, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="field">
+        @Html.LabelFor(m => m.card.CVC, new { @class = "col-form-label" })
+        <div class="input">
+            @Html.TextBoxFor(m => m.card.CVC, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.card.CVC, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    @Html.HiddenFor(m => m.comanda.PretComanda)
+    @Html.HiddenFor(m => m.etapa)
+    @Html.HiddenFor(m => m.comanda.Adresa.Oras)
+    @Html.HiddenFor(m => m.comanda.Adresa.Localitate)
+    @Html.HiddenFor(m => m.comanda.Adresa.Strada)
+    @Html.HiddenFor(m => m.comanda.Adresa.Bloc)
+    @Html.HiddenFor(m => m.comanda.Adresa.Numar)
+    @Html.HiddenFor(m => m.comanda.Factura.Nume)
+    @Html.HiddenFor(m => m.comanda.Factura.Prenume)
+    @Html.HiddenFor(m => m.comanda.Factura.Email)
+    @Html.HiddenFor(m => m.comanda.Factura.NrTelefon)
+    @Html.HiddenFor(m => m.comanda.Factura.Adresa.Oras)
+    @Html.HiddenFor(m => m.comanda.Factura.Adresa.Localitate)
+    @Html.HiddenFor(m => m.comanda.Factura.Adresa.Strada)
+    @Html.HiddenFor(m => m.comanda.Factura.Adresa.Numar)
+    @Html.HiddenFor(m => m.comanda.Factura.Adresa.Bloc)
+    @Html.HiddenFor(m => m.comanda.PretComanda)
+
+</div>
         <div class="button">
-            <input type="submit" value="Adauga" class="submit btn btn-outline-dark" />
+            <input type="submit" value="Plateste" class="adaugaProdusCos btn btn-outline-dark" />
         </div>
     }
 </main>
@@ -69,8 +100,8 @@
 {
     <script>
     document.querySelector("form").addEventListener("submit", function () {
-        var adresa = @Html.Raw(Json.Encode(Model.comanda.adresa));
-        document.querySelector("input[name='comanda.AdresaJson']").value = JSON.stringify(adresa);
+        var adresa = @Html.Raw(Json.Encode(Model.comanda.Adresa));
+        document.querySelector("input[name='comanda.Adresa']").value = JSON.stringify(adresa);
     });
     </script>
 

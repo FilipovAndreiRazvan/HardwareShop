@@ -53,6 +53,11 @@ namespace HardwareShop.Controllers
                 TempData["Mesaj"] = "ProdusAdauagatCos";
                 return RedirectToAction("Index","Listafavorite");
             }
+            else if(viewName == "vizualizare")
+            {
+                TempData["Mesaj"] = "ProdusAdauagatCos";
+                return RedirectToAction("Vizualizare","Servicii",new {id = produs.IdProdus,categorie = produs.Categorie.Nume});
+            }
             else
             {
                 TempData["Mesaj"] = "ProdusAdauagatCos";

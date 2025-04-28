@@ -3,7 +3,7 @@
     ViewBag.Title = "Detalii comanda";
     //Layout = null;
 }
-<link rel="stylesheet" href="~/Content/DetaliiComanda.css" type="text/css" />
+<link rel="stylesheet" href="~/Content/DetaliiComanda.css?v=1.5" type="text/css" />
 <style>
     .navbar {
         display: none;
@@ -11,7 +11,14 @@
     }
 
     main {
-        background-color: #6DD6FA;
+        margin-top: 50px;
+        margin-bottom: 100px;
+        height: 520px;
+        background-image:none;
+    }
+    body {
+        background-color: #061a2c;
+        color: #f5f5f5;
     }
 </style>
 @Html.Partial("_ProgresComanda", Model)
