@@ -1,0 +1,65 @@
+﻿@model HardwareShop.ViewModels.DetaliiComandaViewModel
+@{
+    if (Model.etapa == "Facturare")
+    {
+        <link rel="stylesheet" href="~/Content/Facturare.css" type="text/css" />
+    }
+    else if (Model.etapa == "Livrare")
+    {
+        <link rel="stylesheet" href="~/Content/Livrare.css" type="text/css" />
+    }
+    else if (Model.etapa == "Plata")
+    {
+        <link rel="stylesheet" href="~/Content/Plata.css" type="text/css" />
+    }
+    else
+    {
+        <link rel="stylesheet" href="~/Content/Finalizare.css" type="text/css" />
+    }
+}
+<div class="top">
+    <div class="titlu">
+        <h1>Formular de comanda</h1>
+    </div>
+    <div class="progres">
+        <div class="etapa">
+            <div class="cerc facturare">
+                <h1>1</h1>
+            </div>
+        </div>
+        <div class="line line-livrare">
+        </div>
+        <div class="etapa">
+            <div class="cerc livrare ">
+                <h1>2</h1>
+            </div>
+        </div>
+        <div class="line line-plata">
+        </div>
+        <div class="etapa">
+            <div class="cerc plata">
+                <h1>3</h1>
+            </div>
+        </div>
+        <div class="line line-finalizare">
+        </div>
+        <div class="etapa">
+            <div class="cerc finalizare">
+                <h1>4</h1>
+            </div>
+        </div>
+    </div>
+        <div class="inapoi" onclick="redirect();">
+            <p>Acasa</p>
+        </div>
+    <h3>@ViewBag.etapa</h3>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script>
+    function redirect() {
+        var url = `/Home/Index`;
+        window.location.href = url;
+    }
+</script>

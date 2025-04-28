@@ -1,0 +1,261 @@
+﻿.minus:hover,.plus:hover{
+    cursor:pointer;
+}
+.produs {
+    background-color: #07243e;
+    width: 90%;
+    height: 150px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.cosGol {
+    font-size: 15px;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #07243e;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    transition: opacity 1s;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 6vh;
+}
+
+    .adaugaProdus {
+        width: auto;
+        padding: 8px 20px;
+    }
+
+    .text p {
+        display: inline-block;
+    }
+
+    body {
+        background-color: #f2f2f7;
+    }
+
+    img {
+        width: 25px;
+        height: 25px;
+        margin-right: 10px;
+    }
+
+    img {
+        border-radius: 10px 0 0 10px;
+    }
+    .cosGol img{
+        width:25px;
+        height:25px;
+    }
+
+
+        .delete:hover {
+            cursor: pointer;
+        }
+
+    .img img {
+        width: 100%;
+        height: auto;
+    }
+.adaugaProdus {
+    display: block;
+    width: auto;
+    text-align: center;
+    font-weight: 600;
+    transition: background-color 0.5s;
+    padding: 5px 8px;
+    font-size: 14px;
+    border: 2px solid #1c7dc8;
+    color: red;
+    border-radius: 10px;
+    margin: 0 auto;
+    text-decoration:none;
+}
+    .adaugaProdus:hover {
+        background-color: #1c7dc8;
+        color: white;
+        cursor:pointer;
+    }
+    .title {
+        font-size: 40px;
+    }
+
+.sumarComanda {
+    width: 30%;
+    padding: 30px 25px;
+    height: 300px;
+    margin: 0 auto;
+    right: 50px;
+    background-color: #07243e;
+    border-radius: 10px;
+    position: fixed;
+}
+
+        .sumarComanda h1 {
+            font-size: 25px;
+        }
+
+
+    .livrareGratis {
+        color: green;
+        text-align: right;
+        font-weight: 600;
+    }
+
+    .costuri {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+        .costuri p {
+            font-size: 20px;
+            width: 50%;
+        }
+
+    main {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .produse {
+        width: 100%;
+    }
+
+    .p1, .p3 {
+        text-align: left;
+    }
+
+    .p2, .p4 {
+        text-align: right;
+    }
+
+    .p5, .p6 {
+        font-size: 25px;
+        font-weight: 600;
+        width: 50%;
+    }
+    .p6{
+        text-align:right;
+    }
+    .total{
+        display:flex;
+        margin-bottom:18px;
+    }
+.produs {
+    width: 48%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+}
+
+.stocEpuizat {
+    color: red;
+    font-size: 20px;
+}
+.adaugaProdus {
+    width: 40%;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    padding: 8px 25px;
+    transition: background-color 0.5s;
+    font-size: 18px;
+}
+button {
+    display: inline-block;
+}
+
+.img {
+    width: 20%;
+    height: 100%;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+}
+
+h1 {
+    font-size: 20px;
+}
+
+h2 {
+    font-size: 15px;
+}
+
+.text {
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+    margin-left: 20px;
+}
+
+.pret {
+    font-size: 20px;
+    margin-right: 50px;
+}
+
+.cumpara {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 50px;
+    align-items: center;
+}
+
+main {
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+    margin: 20px auto;
+    flex-wrap: wrap;
+}
+
+.titlu {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 40px;
+}
+
+.detalii {
+    display: flex;
+    flex-direction: row;
+}
+
+h1 {
+    width: 500px;
+    word-wrap: break-word;
+}
+
+body {
+    background-color: #061a2c;
+    color: #f5f5f5;
+}
+
+button {
+    float: right;
+}
+.nrBuc{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    width:20%;
+}
+.nrBuc img{
+   width:25px;
+   margin:0;
+}
+.text h1 a{
+    text-decoration:none;
+    color:white;
+}

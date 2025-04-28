@@ -1,0 +1,29 @@
+﻿<div class="mesaj">
+    @{
+
+        if ((string)TempData["Mesaj"] == "ProdusAdaugat")
+        {
+            <p id="produsAdaugat"><span><img src="~/Imagini/cerc.png" /></span>Produsul adaugat cu succes</p>
+        }
+        if ((string)TempData["Mesaj"] == "ProdusModificat")
+        {
+            <p id="produsAdaugat"><span><img src="~/Imagini/cerc.png" /></span>Produs modificat cu succes</p>
+        }
+        if ((string)TempData["Mesaj"] == "ProdusSters")
+        {
+            <p id="produsAdaugat"><span><img src="~/Imagini/cerc.png" /></span>Produs sters cu succes</p>
+        }
+        if ((string)TempData["Mesaj"] == "ProdusAdauagatCos")
+        {
+            <p id="produsAdaugat"><span><img src="~/Imagini/cerc.png" /></span>Produs adaugat in cos</p>
+        }
+        if ((string)TempData["Mesaj"] == "ProdusAdaugatListaFavorite")
+        {
+            <p id="produsAdaugat"><span><img src="~/Imagini/cerc.png" /></span>Produs adaugat la favorite</p>
+        }
+        if ((string)TempData["Mesaj"] == "ProdusStersListaFavorite")
+        {
+            <p id="produsAdaugat"><span><img src="~/Imagini/cerc.png" /></span>Produs sters de la favorite</p>
+        }
+    }
+</div>

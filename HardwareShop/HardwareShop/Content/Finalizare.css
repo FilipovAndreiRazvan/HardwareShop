@@ -1,0 +1,11 @@
+﻿.facturare, .livrare, .plata,.finalizare, .line-livrare, .line-plata, .line-finalizare {
+	background-color: #6DD6FA;
+}
+
+	.facturare h1, .livrare h1, .plata h1, .finalizare h1 {
+		color: white;
+	}
+
+.line-livrare, .line-plata, .line-finalizare {
+	border: 2px solid #6DD6FA;
+}

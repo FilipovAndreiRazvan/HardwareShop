@@ -1,0 +1,137 @@
+﻿@model HardwareShop.Models.AdaugaProdusViewModel
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/VizualizareProdus.css?v=1.3")">
+@{
+    var pretIntreg = (int)Model.Produs.Pret;
+    var pretDecimal = (int)((Model.Produs.Pret - Math.Floor(Model.Produs.Pret)) * 100);
+    var pret = Model.Produs.Pret;
+    string disponibilitate;
+    string className = "";
+    if (Model.Produs.Stoc > 0)
+    {
+        disponibilitate = "In stoc";
+        className = "disponibil";
+    }
+    else
+    {
+        disponibilitate = "Stoc epuizat";
+        className = "indisponibil";
+    }
+}
+<style>
+    .inputRecenzie {
+        width: 100vh;
+        max-width: 1000px;
+    }
+</style>
+<main>
+    <div class="produs">
+        <div class="imagine">
+            <img src="~/@Model.Produs.ImgLink" />
+        </div>
+        <div class="text">
+            <h1>@Model.Produs.Nume</h1>
+            <h4>
+                Disponibilitate:
+                <span class=@className>@disponibilitate</span>
+            </h4>
+            <h4>
+                Brand:
+                <span class="brand">@Model.Produs.Brand.NumeBrand</span>
+            </h4>
+            <hr />
+            <div class="comanda">
+                
+                    <div class="pretBuc">
+                        <p>
+                            Pret/buc:
+                            <span id="pretBuc">
+                                @pretIntreg
+                                @if (pretDecimal > 0)
+                                {
+                                    <sup>@pretDecimal</sup>
+                                }
+                            </span> Lei
+                        </p>
+                        @if (disponibilitate == "Stoc epuizat")
+                        {
+                            <input type="text" id="nrBucati" value="1" />
+                        }
+                        else
+                        {
+                            <input type="text" id="nrBucati" oninput="calculeazaPretTotal(this);" onblur="resetareInput(this);" value="1" />
+                        }
+                        <span>buc.</span>
+                        <span style="text-align:center;" id="wrongInput">Introduceti un numar intreg!</span>
+                    </div>
+                @if(Model.Produs.Stoc > 0)
+                {
+                    <div class="pretTotal">
+                        <p>
+                            Pret total:
+                            <span id="pretTotal" pret="@Model.Produs.Pret">
+                                <span id="pretIntreg">@pretIntreg</span> @if (pretDecimal > 0)
+                                {
+                                    <sup>@pretDecimal</sup>
+                                }
+                            </span> Lei
+                        </p>
+                        <a class="adaugaProdus" href="#" id="adaugaLink">Adauga in cos</a>
+                    </div>
+                }
+            </div>
+            <hr class="hr_2" />
+            @if (Model.Produs.Descriere != null && Model.Produs.Descriere != "")
+            {
+                <div class="descriere">
+                    <h2>Descriere</h2>
+                    <p>@Model.Produs.Descriere</p>
+                </div>
+                <hr />
+            }
+            <h3>Specificatii</h3>
+
+            <div class="specificatii">
+                @if (Model.Carcasa != null)
+                {
+                    @Html.Partial("_VizualizareProdus", Model.Carcasa)
+                }
+                else if (Model.Pasta != null)
+                {
+                    @Html.Partial("_VizualizareProdus", Model.Pasta)
+                }
+                else if (Model.PlacaDeBaza != null)
+                {
+                    @Html.Partial("_VizualizareProdus", Model.PlacaDeBaza)
+                }
+                else if (Model.PlacaVideo != null)
+                {
+                    @Html.Partial("_VizualizareProdus", Model.PlacaVideo)
+                }
+                else if (Model.PlacutaRAM != null)
+                {
+                    @Html.Partial("_VizualizareProdus", Model.PlacutaRAM)
+                }
+                else if (Model.Procesor != null)
+                {
+                    @Html.Partial("_VizualizareProdus", Model.Procesor)
+                }
+                else if (Model.Sursa != null)
+                {
+                    @Html.Partial("_VizualizareProdus", Model.Sursa)
+                }
+                else if (Model.Stocare != null)
+                {
+                    @Html.Partial("_DetaliiProdus", Model.Stocare)
+                }
+
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    const adaugaUrlTemplate = '@Url.Action("Adauga", "Cos", new { ProdusId = Model.Produs.IdProdus, nrBuc = "__PLACEHOLDER__", categorie = Model.Produs.Categorie.Nume })';
+    const actualizareStocUrlTemplate = '@Url.Action("ActualizareStoc", "Servicii", new { id = Model.Produs.IdProdus, stocNou = "__PLACEHOLDER__", categorie = Model.Produs.Categorie.Nume })';
+    const stocProdus = @Model.Produs.Stoc;
+    const isFurnizor = @User.IsInRole("Furnizor").ToString().ToLower() == "true";
+</script>
+<script src="~/Scripts/VizualizareProdus.js"></script>

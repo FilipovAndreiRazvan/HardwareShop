@@ -1,0 +1,142 @@
+﻿@model List<HardwareShop.Models.CosCumparaturi>
+
+@{
+    decimal pretTotal = 0;
+}
+<link rel="stylesheet" href="~/Content/CosCumparaturi.css?v=2.1" type="text/css" />
+<h1 class="title">Cosul meu</h1>
+<main>
+    @if (Model.Count == 0)
+    {
+        <p class="cosGol">
+            <span>
+                <img src="~/Imagini/info.png" />Cosul tau de cumparaturi nu contine produse. Pentru a adauga produse in cos te rugam
+                <a href="@Url.Action("Index", "Home")">sa te intorci in magazin</a>.
+            </span>
+            <span class="delete" onclick="stergeMesaj()"><img src="~/Imagini/delete.png"></span>
+        </p>
+    }
+    else
+    {
+<div class="produse">
+
+        @foreach (var produs in Model)
+        {
+            decimal pret;
+            if (produs.Produs.Oferta != null)
+            {
+                pret = (decimal)produs.Produs.Oferta;
+            }
+            else
+            {
+                pret = produs.Produs.Pret;
+            }
+            pretTotal += pret * produs.NrBuc;
+            var pretInt = (int)pret;
+            var pretDec = (int)((pret - Math.Floor(pret)) * 100);
+
+                <div class="produs">
+                    <div class="img">
+                        <img src="~/@produs.Produs.ImgLink" />
+                    </div>
+                    <div class="text">
+                        <h1>@Html.ActionLink(produs.Produs.Nume, "Vizualizare", "Servicii", new { id = produs.Produs.IdProdus, categorie = produs.Produs.Categorie.Nume }, null)</h1>
+                        <div class="detalii">
+                            <p>Vandut de @produs.Produs.Brand.NumeBrand</p>
+                        </div>
+                        <div class="cumpara">
+                            <p class="pret">
+                                @pretInt
+                                @if (pretDec > 0)
+                                {
+                                    <sup>@pretDec</sup>
+                                }
+                                Lei
+                            </p>
+                            <div class="nrBuc">
+                                <span class = "minus" onclick="scade(@Json.Encode(produs.Produs),'Carcase')"><img src="~/Imagini/minus.png" /></span>
+                                <input disabled id="nrBuc" type="text" value=@produs.NrBuc style="width:50px;text-align: center;">
+                                <span class = "plus" onclick="adauga(@Json.Encode(produs.Produs),'Carcase')"><img src="~/Imagini/plus.png" /></span>
+                            </div>
+                            <a class="adaugaProdus" href="@Url.Action("Sterge", "Cos", new { ProdusId = produs.Produs.IdProdus, nrBuc = produs.NrBuc })">Stergere produs</a>
+                        </div>
+                    </div>
+                </div>
+
+        }
+</div>
+        <div class="sumarComanda">
+            @{
+                var pretIntreg = (int)pretTotal;
+                var pretDecimal = (int)((pretTotal - Math.Floor(pretTotal)) * 100);
+            }
+            <h1>Sumar comanda</h1>
+            <div class="costuri">
+                <p class="p1">Cost produse:</p>
+                <p class="p2">
+                    @pretIntreg
+                    @if (pretDecimal != 0)
+                    {
+                        <sup>@pretDecimal</sup>
+                    }
+                    Lei
+                </p>
+                <p class="p3" title="Livrare gratuita la comenzi de minim 2000 de lei">Cost livrare*:</p>
+                @if (pretTotal >= 2000)
+                {
+                    <p class="livrareGratis">GRATUIT</p>
+                }
+                else
+                {
+                    pretTotal += 30;
+                    <p class="p4">30 Lei</p>
+                }
+            </div>
+            <div class="total">
+                <p class="p5">Total:</p>
+                @{
+                    pretIntreg = (int)pretTotal;
+                    pretDecimal = (int)((pretTotal - Math.Floor(pretTotal)) * 100);
+                }
+                <p class="p6">
+                    @pretIntreg
+                    @if (pretDecimal != 0)
+                    {
+                        <sup>@pretDecimal</sup>
+                    }
+                    Lei
+                </p>
+            </div>
+            <a class="adaugaProdus" href="@Url.Action("DetaliiComanda","Comanda",new {pret = pretTotal,listaProduse = Model})">Continua</a>
+        </div>
+    }
+</main>
+<script>
+    function stergeMesaj() {
+        var mesaj = document.getElementsByClassName("cosGol");
+        mesaj[0].style.opacity = "0";
+    }
+    function scade(produs, categorie) {
+        var nrBuc = "1";
+        var idProdus = produs.IdProdus;
+        var url = `/Cos/Sterge?ProdusId=${encodeURIComponent(idProdus)}&nrBuc=${encodeURIComponent(nrBuc)}`;
+        window.location.href = url;
+    }
+    function adauga(produs, categorie) {
+        var nrBucInput = document.getElementById("nrBuc");
+        var comanda = document.getElementById("continuaComanda");
+        var idProdus = produs.IdProdus;
+        var nrBuc = "1";
+        var viewName = "cosCumparaturi";
+        var url = `/Cos/Adauga?ProdusId=${encodeURIComponent(idProdus)}&nrBuc=${encodeURIComponent(nrBuc)}&viewName=${encodeURIComponent(viewName)}`;
+        if (produs.Stoc == 0) {
+            comanda.style.background = "white";
+            comanda.style.color = "red";
+            comanda.textContent = "Stoc epuizat";
+            comanda.href = "#";
+        }
+        else {
+            window.location.href = url;
+        }
+    }
+</script>

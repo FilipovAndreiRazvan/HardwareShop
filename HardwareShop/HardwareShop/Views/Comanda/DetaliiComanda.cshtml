@@ -1,0 +1,37 @@
+﻿@model HardwareShop.ViewModels.DetaliiComandaViewModel
+@{
+    ViewBag.Title = "Detalii comanda";
+    //Layout = null;
+}
+<link rel="stylesheet" href="~/Content/DetaliiComanda.css" type="text/css" />
+<style>
+    .navbar {
+        display: none;
+        background-color: red;
+    }
+
+    main {
+        background-color: #6DD6FA;
+    }
+</style>
+@Html.Partial("_ProgresComanda", Model)
+<h1 class="titluEtapa">@Model.etapa</h1>
+@if (Model.etapa == "Facturare")
+{
+    @Html.Partial("_Facturare", Model.comanda)
+}
+else if (Model.etapa == "Livrare")
+{
+    @Html.Partial("_Livrare", Model.comanda)
+}
+else if (Model.etapa == "Plata")
+{
+    @Html.Partial("_Plata", Model)
+}
+else
+{
+    @Html.Partial("_Finalizare")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

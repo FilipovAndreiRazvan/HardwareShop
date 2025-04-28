@@ -1,0 +1,114 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@model List<HardwareShop.Models.Produs>
+@{
+    Random rnd = new Random();
+    var num = rnd.Next();
+}
+<link rel="stylesheet" href="~/Content/HomePage.css?v=@num" type="text/css" />
+@Html.Partial("_AfisareMesaj")
+<main class="main">
+    <h1>Oferte</h1>
+    <div class="produse">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            var pretIntreg = (int)Model[i].Pret;
+            var pretDecimal = Math.Round((Model[i].Pret - pretIntreg) * 100);
+            <div class="produs">
+                <div class="img">
+                    <img src="~/@Model[i].ImgLink" />
+                </div>
+                @if (User.IsInRole("Furnizor") == false && User.IsInRole("Admin") == false)
+                {
+                    <div class="adaugaFavorit">
+                        @if (Model[i].ProdusFavorit == false)
+                        {
+                            <a href="@Url.Action("Adauga", "ListaFavorite", new {ProdusId = Model[i].IdProdus,paginaOferte = true}, null)">
+                                <img src="~/Imagini/heart.png" />
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Sterge", "ListaFavorite", new { ProdusId = Model[i].IdProdus, viewName = "lista",paginaOferte = true}, null)">
+                                <img src="~/Imagini/heartRed.png" />
+                            </a>
+                        }
+                    </div>
+                }
+                <div class="text">
+                    <div class="titlu-favorit">
+                        <h1>@Html.ActionLink(Model[i].Nume, "Vizualizare", "Servicii", new { id = Model[i].IdProdus, categorie = Model[i].Categorie.Nume }, null)</h1>
+
+
+
+                    </div>
+
+                    <div class="cumpara">
+                        @if (Model[i].Stoc > 0)
+                        {
+                            if (Model[i].Stoc == 1)
+                            {
+                                <p style="color:red">Ultimul articol din stoc</p>
+                            }
+                            else
+                            {
+                                <p>In stoc</p>
+                            }
+                        }
+                        else
+                        {
+                            <p style="color:red">Stoc epuizat</p>
+                        }
+
+                        <p class="pret">
+                            <del>
+                                @pretIntreg Lei
+                            </del>
+                            @if (pretDecimal > 0)
+                            {
+                                <sup>@pretDecimal</sup>
+                            }
+                            <br />
+                            <span style="margin-top:10px;display:inline-block">@Model[i].Oferta Lei</span>
+
+                        </p>
+                        @if (Model[i].Stoc > 0)
+                        {
+                            <a class="adaugaProdusCos" href="@Url.Action("Adauga", "Cos", new { ProdusId = Model[i].IdProdus, nrBuc = 1, viewName = "",paginaOferte = true })">Adauga in cos</a>
+                        }
+                        else
+                        {
+                            <a class="adaugaProdusCos" href="#">Adauga in cos</a>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</main>
+<script>
+    var mesaj = @(TempData["Mesaj"] != null ? "true" :"false");
+    if (mesaj === true) {
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                document.getElementById("produsAdaugat").style.opacity = 0;
+            }, 1000);
+        });
+    }
+</script>
+<style>
+    .navbar {
+        position: fixed;
+        margin: 0;
+    }
+</style>
+@if (User.IsInRole("Furnizor") == true)
+{
+    <style>
+        .img img {
+            width: 100%;
+        }
+    </style>
+}

@@ -1,0 +1,10 @@
+﻿.facturare, .livrare, .line-livrare {
+    background-color: #6DD6FA;
+}
+
+    .facturare h1,.livrare h1 {
+        color: white;
+    }
+.line-livrare {
+    border: 2px solid #6DD6FA;
+}

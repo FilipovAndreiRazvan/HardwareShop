@@ -1,0 +1,44 @@
+﻿@using HardwareShop.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Logare";
+}
+<link rel="stylesheet" href="~/Content/LoginRegister.css?v=1.2" type="text/css" />
+<main aria-labelledby="title">
+    <h2 id="title">@ViewBag.Title</h2>
+    <div class="form">
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+        {
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="field">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
+                <div class="input">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="field">
+                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
+                <div class="input">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="field">
+                <div class="offset-md-2 col-md-10">
+                    <div class="checkbox">
+                        @Html.CheckBoxFor(m => m.RememberMe)
+                        @Html.LabelFor(m => m.RememberMe)
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <input type="submit" value="Logare" class="adaugaProdus" />
+            </div>
+        }
+    </div>
+</main>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

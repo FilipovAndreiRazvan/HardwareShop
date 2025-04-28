@@ -1,0 +1,226 @@
+﻿.produs {
+    border-radius:5px;
+    width: 23%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: #07243e;
+    margin-top: 20px;
+    padding: 20px;
+    color: white;
+    float:left;
+    height:450px;
+}
+.produs a{
+    text-decoration:none;
+    color:white;
+}
+    .produs p {
+        margin: 0;
+    }
+.produse{
+    width:95%;
+    margin:0 auto;
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    justify-content:space-evenly;
+    padding-bottom:30px;
+
+}
+.footer {
+    border-top: 1px solid #07243e;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    height: 8vh;
+}
+.filtre {
+    border-right: 1px solid #07243e;
+    padding:30px;
+    grid-row-start: 1;
+    grid-row-end: 4;
+}
+#produsAdaugat {
+    position: absolute;
+    top: 60px;
+    right: 50px;
+    width: 300px;
+    z-index: 3;
+    opacity: 1;
+    display: block;
+    margin-bottom: 0;
+    background-color: #07243e;
+    border-radius: 10px;
+    padding: 8px;
+    padding-left: 25px;
+    color: white;
+    text-align: left;
+    transition: opacity 1.5s;
+    margin-top: 10px;
+}
+.stocEpuizat {
+    margin: 0;
+    color: #1c7dc8;
+    font-size: 20px;
+}
+
+.adaugaFavorit img {
+    width: 30px;
+    height: 30px;
+}
+.adaugaFavorit{
+    position:relative;
+    bottom:180px;
+    left:15px;
+}
+
+.titlu-favorit {
+    display: flex;
+    justify-content: space-between;
+}
+.tooltiptext {
+    display:none;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+.adaugaProdusCos, .adaugaProdus {
+    width: auto;
+    text-align: center;
+    font-weight: 600;
+    transition: background-color 0.5s;
+    padding: 5px 8px;
+    font-size: 14px;
+    border: 2px solid #1c7dc8;
+    color: #1c7dc8;
+    border-radius: 10px;
+}
+.adaugaProdus {
+    width: auto;
+    font-size: 18px;
+    text-decoration: none;
+    margin-top:10px;
+}
+.stergeProdus {
+    position: relative;
+    width: 230px;
+    margin-top: 15px;
+    padding: 7px 25px;
+    grid-area: 2 / 2;
+}
+.stergeProdus, .actualizeazaStoc {
+   /* width: 15%;*/
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    background-color: #71c16a;
+    padding: 8px 25px;
+    transition: background-color 0.5s;
+    font-size: 18px;
+}
+.adaugaProdus {
+    position: absolute;
+    right: 100px;
+}
+
+
+
+    .adaugaProdusCos:hover, .adaugaProdus:hover, .stergeProdus:hover, .actualizeazaStoc:hover {
+        color: white;
+        background-color: #1c7dc8;
+        cursor:pointer;
+    }
+.actualizeazaStoc{
+    position: relative;
+    top: 0;
+    width: 35%;
+    right:0;
+}
+button {
+    display: inline-block;
+}
+
+img {
+    width: 200px;
+    height: 170px;
+}
+
+h1 {
+    font-size: 20px;
+}
+
+h2 {
+    font-size: 15px;
+}
+
+.pret {
+    font-size: 22px;
+    margin: 0;
+}
+
+.cumpara {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 20% auto;
+    width: 100%;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    height: 69vh;
+}
+.mesaj {
+    width: auto;
+}
+.titlu {
+    margin-left: 4%;
+    font-size: 40px;
+}
+
+h1 {
+    width: 500px;
+    word-wrap: break-word;
+}
+
+body {
+    background-color: #061a2c;
+    color: #f5f5f5;
+}
+
+button {
+    float: right;
+}
+.stoc{
+    font-size:20px;
+    font-weight:600;
+}
+.filtre h1 {
+    text-align: center;
+    width: 100%;
+}
+.titlu-favorit > h1{
+    margin-top:10px;
+    color:white;
+}
+span{
+    position:relative;
+    bottom:2px;
+    right:5px;
+    margin-right:8px;
+}
+span img{
+    width:20px;
+    height:20px;
+}

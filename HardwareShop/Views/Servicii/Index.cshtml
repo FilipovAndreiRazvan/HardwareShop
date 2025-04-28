@@ -1,0 +1,230 @@
+﻿@model HardwareShop.ViewModels.IndexProdusViewModel
+    @{ 
+        Random rnd = new Random();
+        var num = rnd.Next();
+    }
+<link rel="stylesheet" href="~/Content/IndexCategorie.css?v=@num" type="text/css" />
+<main>
+    <div class="filtre">
+        <h1>Filtre</h1>
+    </div>
+    @Html.Partial("_AfisareMesaj",Model)
+    <h1 class="titlu">@Model.categorieProduse</h1>
+    @if (User.IsInRole("Furnizor"))
+    {
+        @Html.ActionLink("Adauga produs", "ViewAdauga", "Servicii", new { categorie = @Model.categorieProduse }, new { @class = "adaugaProdus buton" });
+        <style>
+            .cumpara {
+                display: block;
+                margin-top: 0;
+            }
+
+            .actiune {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                font-size: 150px;
+            }
+
+                .actiune a {
+                    width: 40%;
+                }
+
+                .actiune .adaugaProdus {
+                    position: static;
+                }
+            #produsAdaugat {
+                position: absolute;
+                left: 550px;
+                top:60px;
+            }
+        </style>
+    }
+
+    <div class="produse">
+        @if (Model.Produse.Count > 0)
+        {
+            ViewBag.Title = "Index";
+            var categorieProdus = Model.categorieProduse;
+
+
+
+            for (int i = 0; i < Model.Produse.Count; i++)
+            {
+                var pretIntreg = (int)Model.Produse[i].Pret;
+                var pretDecimal = Math.Round((Model.Produse[i].Pret - pretIntreg) * 100);
+                <div class="produs">
+                    <div class="img">
+                        <img src="~/@Model.Produse[i].ImgLink" />
+                    </div>
+                    <div class="text">
+                        <div class="titlu-favorit">
+                            <h1>@Html.ActionLink(Model.Produse[i].Nume, "Vizualizare", "Servicii", new { id = Model.Produse[i].IdProdus, categorie = categorieProdus }, null)</h1>
+                            @if (User.IsInRole("Furnizor") == false && User.IsInRole("Admin") == false)
+                            {
+                                <div class="adaugaFavorit">
+                                    @if (Model.Produse[i].ProdusFavorit == false)
+                                    {
+                                        <a href="@Url.Action("Adauga", "ListaFavorite", new {ProdusId = Model.Produse[i].IdProdus}, null)">
+                                            <img src="~/Imagini/heart.png" />
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Sterge", "ListaFavorite", new { ProdusId = Model.Produse[i].IdProdus, viewName = "lista"}, null)">
+                                            <img src="~/Imagini/heartRed.png" />
+                                        </a>
+                                    }
+                                </div>
+                            }
+
+                        </div>
+                        <div class="detalii">
+
+                            @if (Model.Carcase != null)
+                            {
+                                @Html.Partial("_DetaliiProdus", Model.Carcase[i])
+                            }
+                            else if (Model.PastaProcesor != null)
+                            {
+                                @Html.Partial("_DetaliiProdus", Model.PastaProcesor[i])
+                            }
+                            else if (Model.PlaciDeBaza != null)
+                            {
+                                @Html.Partial("_DetaliiProdus", Model.PlaciDeBaza[i])
+                            }
+                            else if (Model.PlaciVideo != null)
+                            {
+                                @Html.Partial("_DetaliiProdus", Model.PlaciVideo[i])
+                            }
+                            else if (Model.PlacuteRAM != null)
+                            {
+                                @Html.Partial("_DetaliiProdus", Model.PlacuteRAM[i])
+                            }
+                            else if (Model.Procesoare != null)
+                            {
+                                @Html.Partial("_DetaliiProdus", Model.Procesoare[i])
+                            }
+                            else if (Model.SurseDeAlimentare != null)
+                            {
+                                @Html.Partial("_DetaliiProdus", Model.SurseDeAlimentare[i])
+                            }
+                            else if (Model.UnitatiDeStocare != null)
+                            {
+                                @Html.Partial("_DetaliiProdus", Model.UnitatiDeStocare[i])
+                            }
+                        </div>
+                        <div class="cumpara">
+                            @if (User.IsInRole("Furnizor"))
+                            {
+                                <p class="stoc">Stoc: @Model.Produse[i].Stoc buc</p>
+                                <div class="actiune">
+                                    <a href="@Url.Action("Sterge","Servicii",new { id = Model.Produse[i].IdProdus })" class="adaugaProdus">Sterge</a>
+                                    <a href="@Url.Action("ViewAdauga", "Servicii", new { categorie = Model.Produse[i].Categorie.Nume, idProdus = Model.Produse[i].IdProdus })" class="adaugaProdus">Modifica</a>
+                                </div>
+
+                            }
+                            else
+                            {
+                                if (Model.Produse[i].Stoc > 0)
+                                {
+
+
+                                    <div class="pret">
+                                        @if (Model.Produse[i].Oferta != null)
+                                        {
+                                        <p>@((int?)Model.Produse[i].Oferta) <sup><del>@pretIntreg</del></sup>Lei</p>
+                                    }
+                                    else
+                                    {
+                                        <p>@pretIntreg
+                                        @if (pretDecimal > 0)
+                                        {
+                                            <sup>@pretDecimal</sup>
+                                        }
+                                            Lei
+                                        </p>
+                                    }
+                                        </div>
+
+                                        <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {ProdusId = Model.Produse[i].IdProdus,nrBuc = 1,viewName = ""})">Adauga in cos</a>
+                                    }
+                                    else
+                                    {
+                                        <p class="stocEpuizat">Stoc epuizat</p>
+                                    }
+                                }
+
+                        </div>
+                    </div>
+                </div>
+            }
+
+        }
+        else
+            {
+                <style>
+                    .produse{
+                        height:69vh;
+                    }
+                </style>
+            }
+    </div>
+    <div class="footer">
+        <h1>Detalii contact </h1>
+    </div>
+</main>
+@if(Model.Produse.Count < 4)
+            {
+                <style>
+                    .produse{
+                        display:block;
+                    }
+                    .produs{
+                        margin-right:10%;
+                    }
+                </style>
+            }
+
+<script>
+    var mesaj = @(TempData["Mesaj"] != null ? "true" :"false");
+    if (mesaj === true) {
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                document.getElementById("produsAdaugat").style.opacity = 0;
+            }, 1000);
+        });
+    }
+
+    var titlu = document.getElementsByClassName("titlu")[0];
+    var categorie = "@Model.categorieProduse";
+
+    switch (categorie) {
+        case "Carcase":
+            titlu.textContent = "Carcase";
+            break;
+        case "PlaciDeBaza":
+            titlu.textContent = "Placi de baza";
+            break;
+        case "Procesoare":
+            titlu.textContent = "Procesoare";
+            break;
+        case "PlaciVideo":
+            titlu.textContent = "Placi video";
+            break;
+        case "PlacuteRAM":
+            titlu.textContent = "Placute RAM";
+            break;
+        case "UnitatiStocare":
+            titlu.textContent = "Unitati de stocare";
+            break;
+        case "SurseDeAlimentare":
+            titlu.textContent = "Surse de alimentare";
+            break;
+        case "PastaProcesor":
+            titlu.textContent = "Pasta pentru procesor";
+            break;
+    }
+</script>
+
+
