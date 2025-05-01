@@ -8,19 +8,24 @@ using System.Web.Mvc;
 using HardwareShop.ViewModels;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Drawing.Drawing2D;
+using System.Threading.Tasks;
 
+// Controller-ul gestionează metodele externe pentru adăugarea și manipularea produselor hardware.
 namespace HardwareShop.Models
 {
     public  class MetodeExterne
     {
+        // Constructorul primește contextul bazei de date pentru a putea interacționa cu entitățile din aplicație
         private readonly ApplicationDbContext context;
         public MetodeExterne(ApplicationDbContext _context) 
         {
             context = _context;
         }
-        // GET: MetodeExterne
-        public  void AdaugareProdus(object produs)
+
+        // Adaugă un produs în funcție de tipul acestuia (Carcasa, PastaCPU, etc.)
+        public void AdaugareProdus(object produs)
         {
+            // Verificăm tipul produsului și actualizăm linkul imaginii corespunzător.
             if (produs is Carcasa carcasa)
             {
                 carcasa.Produs.ImgLink = "Imagini/Carcase/" + carcasa.Produs.ImgLink;
@@ -65,33 +70,35 @@ namespace HardwareShop.Models
 
         }
 
-        public  object ListaProduse(string userId,string categorieProduse, string numeBrand = null, int produsId = 0)
+        // Această metodă returnează lista produselor dintr-o categorie, cu opțiunea de a filtra după brand sau id-ul produsului.
+        public async Task<object> ListaProduse(string userId,string categorieProduse, string numeBrand = null, int produsId = 0)
         {
+            // Folosim un switch pentru a gestiona diferite categorii de produse.
             switch (categorieProduse)
             {
                 case "Carcase":
                     List<Carcasa> carcase;
                     if (produsId != 0)
-                        return context.carcase.Include(p => p.Produs).Include(p => p.Produs.Categorie).Include(p => p.Produs.Brand).SingleOrDefault(p => p.Produs.IdProdus == produsId);
+                        return await context.carcase.Include(p => p.Produs).Include(p => p.Produs.Categorie).Include(p => p.Produs.Brand).SingleOrDefaultAsync(p => p.Produs.IdProdus == produsId);
                     if (!string.IsNullOrEmpty(numeBrand))
                     {
-                        carcase = context.carcase.Include(p => p.Produs).Include(p => p.Produs.Categorie).Include(p => p.Produs.Brand).Where(p => p.Produs.Brand.NumeBrand == numeBrand).ToList();
+                        carcase = await context.carcase.Include(p => p.Produs).Include(p => p.Produs.Categorie).Include(p => p.Produs.Brand).Where(p => p.Produs.Brand.NumeBrand == numeBrand).ToListAsync();
                     }
                     else
                     {
-                        carcase = context.carcase.Include(p => p.Produs).Include(p => p.Produs.Categorie).ToList();
+                        carcase = await context.carcase.Include(p => p.Produs).Include(p => p.Produs.Categorie).ToListAsync();
                     }
                     return Verificare<Carcasa>(userId,carcase);
 
                 case "PastaProcesor":
                     List<PastaCPU> pastaCPU;
                     if (produsId != 0)
-                        return context.pasteProcesor.Include(p => p.Produs).Include(p => p.Produs.Categorie).Include(p => p.Produs.Brand).SingleOrDefault(p => p.Produs.IdProdus == produsId);
+                        return await context.pasteProcesor.Include(p => p.Produs).Include(p => p.Produs.Categorie).Include(p => p.Produs.Brand).SingleOrDefaultAsync(p => p.Produs.IdProdus == produsId);
                     if (!string.IsNullOrEmpty(numeBrand))
                     {
-                        pastaCPU = context.pasteProcesor.Include(p => p.Produs).Include(p => p.Produs.Categorie).Where(p => p.Produs.Brand.NumeBrand == numeBrand).ToList();
+                        pastaCPU = await context.pasteProcesor.Include(p => p.Produs).Include(p => p.Produs.Categorie).Where(p => p.Produs.Brand.NumeBrand == numeBrand).ToListAsync();
                     }
-                    pastaCPU = context.pasteProcesor.Include(p => p.Produs).Include(p => p.Produs.Categorie).ToList();
+                    pastaCPU = await context.pasteProcesor.Include(p => p.Produs).Include(p => p.Produs.Categorie).ToListAsync();
                     return Verificare<PastaCPU>(userId,pastaCPU);
 
                 case "PlaciDeBaza":
@@ -100,9 +107,9 @@ namespace HardwareShop.Models
                         return context.placiDeBaza.Include(p => p.Produs).Include(p => p.Produs.Categorie).Include(p => p.Produs.Brand).SingleOrDefault(p => p.Produs.IdProdus == produsId);
                     if (!string.IsNullOrEmpty(numeBrand))
                     {
-                        placiDeBaza = context.placiDeBaza.Include(p => p.Produs).Include(p => p.Produs.Categorie).Where(p => p.Produs.Brand.NumeBrand == numeBrand).ToList();
+                        placiDeBaza = await context.placiDeBaza.Include(p => p.Produs).Include(p => p.Produs.Categorie).Where(p => p.Produs.Brand.NumeBrand == numeBrand).ToListAsync();
                     }
-                    placiDeBaza = context.placiDeBaza.Include(p => p.Produs).Include(p => p.Produs.Categorie).ToList();
+                    placiDeBaza = await context.placiDeBaza.Include(p => p.Produs).Include(p => p.Produs.Categorie).ToListAsync();
                     return Verificare<Motherboard>(userId, placiDeBaza);
 
                 case "PlaciVideo":
@@ -111,9 +118,9 @@ namespace HardwareShop.Models
                         return context.placiVideo.Include(p => p.Produs).Include(p => p.Produs.Categorie).Include(p => p.Produs.Brand).SingleOrDefault(p => p.Produs.IdProdus == produsId);
                     if (!string.IsNullOrEmpty(numeBrand))
                     {
-                        placiVideo = context.placiVideo.Include(p => p.Produs).Include(p => p.Produs.Categorie).Where(p => p.Produs.Brand.NumeBrand == numeBrand).ToList();
+                        placiVideo = await context.placiVideo.Include(p => p.Produs).Include(p => p.Produs.Categorie).Where(p => p.Produs.Brand.NumeBrand == numeBrand).ToListAsync();
                     }
-                    placiVideo = context.placiVideo.Include(p => p.Produs).Include(p => p.Produs.Categorie).ToList();
+                    placiVideo = await context.placiVideo.Include(p => p.Produs).Include(p => p.Produs.Categorie).ToListAsync();
                     return Verificare<GPU>(userId, placiVideo);
 
                 case "PlacuteRAM":
@@ -122,9 +129,9 @@ namespace HardwareShop.Models
                         return context.placuteRAM.Include(p => p.Produs).Include(p => p.Produs.Categorie).Include(p => p.Produs.Brand).SingleOrDefault(p => p.Produs.IdProdus == produsId);
                     if (!string.IsNullOrEmpty(numeBrand))
                     {
-                        placuteRAM = context.placuteRAM.Include(p => p.Produs).Include(p => p.Produs.Categorie).Where(p => p.Produs.Brand.NumeBrand == numeBrand).ToList();
+                        placuteRAM = await context.placuteRAM.Include(p => p.Produs).Include(p => p.Produs.Categorie).Where(p => p.Produs.Brand.NumeBrand == numeBrand).ToListAsync();
                     }
-                    placuteRAM = context.placuteRAM.Include(p => p.Produs).Include(p => p.Produs.Categorie).ToList();
+                    placuteRAM = await context.placuteRAM.Include(p => p.Produs).Include(p => p.Produs.Categorie).ToListAsync();
                     return Verificare<PlacutaRAM>(userId, placuteRAM);
 
                 case "Procesoare":
@@ -133,9 +140,9 @@ namespace HardwareShop.Models
                         return context.procesoare.Include(p => p.Produs).Include(p => p.Produs.Categorie).Include(p => p.Produs.Brand).SingleOrDefault(p => p.Produs.IdProdus == produsId);
                     if (!string.IsNullOrEmpty(numeBrand))
                     {
-                        procesoare = context.procesoare.Include(p => p.Produs).Include(p => p.Produs.Categorie).Where(p => p.Produs.Brand.NumeBrand == numeBrand).ToList();
+                        procesoare = await context.procesoare.Include(p => p.Produs).Include(p => p.Produs.Categorie).Where(p => p.Produs.Brand.NumeBrand == numeBrand).ToListAsync();
                     }
-                    procesoare = context.procesoare.Include(p => p.Produs).Include(p => p.Produs.Categorie).ToList();
+                    procesoare = await context.procesoare.Include(p => p.Produs).Include(p => p.Produs.Categorie).ToListAsync();
                     return Verificare<CPU>(userId, procesoare);
 
                 case "SurseDeAlimentare":
@@ -144,9 +151,9 @@ namespace HardwareShop.Models
                         return context.surse.Include(p => p.Produs).Include(p => p.Produs.Categorie).Include(p => p.Produs.Brand).SingleOrDefault(p => p.Produs.IdProdus == produsId);
                     if (!string.IsNullOrEmpty(numeBrand))
                     {
-                        surse = context.surse.Include(p => p.Produs).Include(p => p.Produs.Categorie).Where(p => p.Produs.Brand.NumeBrand == numeBrand).ToList();
+                        surse = await context.surse.Include(p => p.Produs).Include(p => p.Produs.Categorie).Where(p => p.Produs.Brand.NumeBrand == numeBrand).ToListAsync();
                     }
-                    surse = context.surse.Include(p => p.Produs).Include(p => p.Produs.Categorie).ToList();
+                    surse = await context.surse.Include(p => p.Produs).Include(p => p.Produs.Categorie).ToListAsync();
                     return Verificare(userId, surse);
 
                 default:
@@ -155,14 +162,16 @@ namespace HardwareShop.Models
                         return context.stocare.Include(p => p.Produs).Include(p => p.Produs.Categorie).Include(p => p.Produs.Brand).SingleOrDefault(p => p.Produs.IdProdus == produsId);
                     if (!string.IsNullOrEmpty(numeBrand))
                     {
-                        unitatiStocare = context.stocare.Include(p => p.Produs).Include(p => p.Produs.Categorie).Where(p => p.Produs.Brand.NumeBrand == numeBrand).ToList();
+                        unitatiStocare = await context.stocare.Include(p => p.Produs).Include(p => p.Produs.Categorie).Where(p => p.Produs.Brand.NumeBrand == numeBrand).ToListAsync();
                     }
-                    unitatiStocare = context.stocare.Include(p => p.Produs).Include(p => p.Produs.Categorie).ToList();
+                    unitatiStocare = await context.stocare.Include(p => p.Produs).Include(p => p.Produs.Categorie).ToListAsync();
                     return Verificare<UnitatiDeStocare>(userId, unitatiStocare);
             }
 
         }
-        public  IndexProdusViewModel Verificare<T>(string userId,List<T> categorii)
+
+        // Verifică produsele favoritate ale unui utilizator pentru fiecare categorie de produs
+        public IndexProdusViewModel Verificare<T>(string userId,List<T> categorii)
         {
             List<Produs> produse = new List<Produs>();
             foreach (var produs in categorii)
@@ -264,8 +273,10 @@ namespace HardwareShop.Models
         }
 
 
+        // Asociază un produs cu o categorie pe baza datelor din ViewModel
         public void Asociere<T>(Produs produs,T categorie, AdaugaProdusViewModel model)
         {
+            // Actualizăm informațiile produsului pe baza celor din ViewModel
             produs.Descriere = model.Produs.Descriere;
             produs.CategorieId = model.Produs.CategorieId;
             produs.Nume = model.Produs.Nume;
@@ -417,50 +428,50 @@ namespace HardwareShop.Models
         {
             if (model.PlacaDeBaza != null)
             {
-                SalvareProdusSpecific(model.PlacaDeBaza,produs,brand);
+                SalvareProdusSpecific(model.PlacaDeBaza,produs,brand,model);
             }
             else if (model.Carcasa != null)
             {
-                SalvareProdusSpecific(model.Carcasa,produs,brand);
+                SalvareProdusSpecific(model.Carcasa,produs,brand,model);
             }
             else if (model.Procesor != null)
             {
-                SalvareProdusSpecific(model.Procesor,produs,brand);
+                SalvareProdusSpecific(model.Procesor,produs,brand, model);
             }
             else if (model.Pasta != null)
             {
-                SalvareProdusSpecific(model.Pasta,produs,brand);
+                SalvareProdusSpecific(model.Pasta,produs,brand, model);
             }
             else if (model.PlacaVideo != null)
             {
-                SalvareProdusSpecific(model.PlacaVideo,produs,brand);
+                SalvareProdusSpecific(model.PlacaVideo,produs,brand, model);
             }
             else if (model.PlacutaRAM != null)
             {
-                SalvareProdusSpecific(model.PlacutaRAM, produs, brand);
+                SalvareProdusSpecific(model.PlacutaRAM, produs, brand, model);
             }
             else if (model.Sursa != null)
             {
-                SalvareProdusSpecific(model.Sursa, produs, brand);
+                SalvareProdusSpecific(model.Sursa, produs, brand, model);
             }
             else if (model.Stocare != null)
             {
-                SalvareProdusSpecific(model.Stocare, produs, brand);
+                SalvareProdusSpecific(model.Stocare, produs, brand, model);
             }
         }
 
-        public void SalvareProdusSpecific(object produsSpecific,Produs produs,BrandUser brand)
+        public void SalvareProdusSpecific(object produsSpecific,Produs produs,BrandUser brand, AdaugaProdusViewModel model)
         {
             if (produs.IdProdus != 0)
             {
-                Asociere(produs,produsSpecific,new AdaugaProdusViewModel() );
+                Asociere(produs,produsSpecific,model);
             }
             else
             {
                 var product = produsSpecific as dynamic;
                 product.Produs = produs;
-                AdaugareProdus(produsSpecific);
-                produs.BrandId = brand.Id;
+                product.Produs.BrandId = brand.Id;
+                AdaugareProdus(product);
                 context.produse.Add(produs);
             }
         }

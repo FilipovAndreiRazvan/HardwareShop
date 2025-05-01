@@ -92,19 +92,19 @@
                     @if (User.IsInRole("Client") || Request.IsAuthenticated == false)
                     {
                         <li>@Html.ActionLink("Favorite", "Index", "ListaFavorite", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Cosul meu", "Index", "Cos", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Cosul meu", "Index", "CosCumparaturi", new { area = "" }, new { @class = "nav-link" })</li>
                     }
 
                     else if (User.IsInRole("Admin"))
                     {
                         <li>@Html.ActionLink("Cereri", "ListaCereri", "Cerere", new { area = "" }, new { @class = "nav-link" })</li>
                         <li>@Html.ActionLink("Statistici", "Index", "Statistici", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Cosul meu", "Index", "Cos", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Cosul meu", "Index", "CosCumparaturi", new { area = "" }, new { @class = "nav-link" })</li>
                     }
                     else if (User.IsInRole("Furnizor"))
                     {
                         <li>@Html.ActionLink("Statistici", "Index", "Statistici", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Cosul meu", "Index", "Cos", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Cosul meu", "Index", "CosCumparaturi", new { area = "" }, new { @class = "nav-link" })</li>
                     }
                 </ul>
 

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace HardwareShop.ViewModels
@@ -20,6 +21,5 @@ namespace HardwareShop.ViewModels
         public List<UnitatiDeStocare> UnitatiDeStocare { get; set; }
         public string categorieProduse { get; set; }
         public StatusProdus StatusProdus { get; set; }
-
     }
 }

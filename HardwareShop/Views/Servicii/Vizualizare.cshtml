@@ -136,7 +136,7 @@
     </div>
 </main>
 <script>
-    const adaugaUrlTemplate = '@Url.Action("Adauga", "Cos", new { ProdusId = Model.Produs.IdProdus, nrBuc = "__PLACEHOLDER__",viewName = "vizualizare" })';
+    const adaugaUrlTemplate = '@Url.Action("Adauga", "CosCumparaturi", new { ProdusId = Model.Produs.IdProdus, nrBuc = "__PLACEHOLDER__",viewName = "vizualizare" })';
     const stocProdus = @Model.Produs.Stoc;
     const isFurnizor = @User.IsInRole("Furnizor").ToString().ToLower() == "true";
     var mesaj = @(TempData["Mesaj"] != null ? "true" :"false");

@@ -58,7 +58,7 @@
                                 <input disabled id="nrBuc" type="text" value=@produs.NrBuc style="width:50px;text-align: center;">
                                 <span class = "plus" onclick="adauga(@Json.Encode(produs.Produs),'Carcase')"><img src="~/Imagini/plus.png" /></span>
                             </div>
-                            <a class="adaugaProdus" href="@Url.Action("Sterge", "Cos", new { ProdusId = produs.Produs.IdProdus, nrBuc = produs.NrBuc })">Stergere produs</a>
+                            <a class="adaugaProdus" href="@Url.Action("Sterge", "CosCumparaturi", new { ProdusId = produs.Produs.IdProdus, nrBuc = produs.NrBuc })">Stergere produs</a>
                         </div>
                     </div>
                 </div>
@@ -119,7 +119,7 @@
     function scade(produs, categorie) {
         var nrBuc = "1";
         var idProdus = produs.IdProdus;
-        var url = `/Cos/Sterge?ProdusId=${encodeURIComponent(idProdus)}&nrBuc=${encodeURIComponent(nrBuc)}`;
+        var url = `/CosCumparaturi/Sterge?ProdusId=${encodeURIComponent(idProdus)}&nrBuc=${encodeURIComponent(nrBuc)}`;
         window.location.href = url;
     }
     function adauga(produs, categorie) {
@@ -128,7 +128,7 @@
         var idProdus = produs.IdProdus;
         var nrBuc = "1";
         var viewName = "cosCumparaturi";
-        var url = `/Cos/Adauga?ProdusId=${encodeURIComponent(idProdus)}&nrBuc=${encodeURIComponent(nrBuc)}&viewName=${encodeURIComponent(viewName)}`;
+        var url = `/CosCumparaturi/Adauga?ProdusId=${encodeURIComponent(idProdus)}&nrBuc=${encodeURIComponent(nrBuc)}&viewName=${encodeURIComponent(viewName)}`;
         if (produs.Stoc == 0) {
             comanda.style.background = "white";
             comanda.style.color = "red";

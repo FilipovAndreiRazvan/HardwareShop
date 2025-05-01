@@ -151,7 +151,7 @@
                         <div class="butoane">
                             @if (produs.Stoc > 0)
                             {
-                                <a class="adaugaProdusCos" href="@Url.Action("Adauga","Cos",new {ProdusId = produs.IdProdus,viewName = "listaFavorite",nrBuc = 1})">Adauga in cos</a>
+                                <a class="adaugaProdusCos" href="@Url.Action("Adauga","CosCumparaturi",new {ProdusId = produs.IdProdus,viewName = "listaFavorite",nrBuc = 1})">Adauga in cos</a>
                             }
                             else
                             {

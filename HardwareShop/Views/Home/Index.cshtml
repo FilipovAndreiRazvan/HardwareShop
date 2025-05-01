@@ -75,7 +75,7 @@
                         </p>
                         @if (Model[i].Stoc > 0)
                         {
-                            <a class="adaugaProdusCos" href="@Url.Action("Adauga", "Cos", new { ProdusId = Model[i].IdProdus, nrBuc = 1, viewName = "",paginaOferte = true })">Adauga in cos</a>
+                            <a class="adaugaProdusCos" href="@Url.Action("Adauga", "CosCumparaturi", new { ProdusId = Model[i].IdProdus, nrBuc = 1, viewName = "",paginaOferte = true })">Adauga in cos</a>
                         }
                         else
                         {

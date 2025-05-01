@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Data.Entity;
+using System.Threading.Tasks;
 
 
 namespace HardwareShop.Controllers
@@ -13,118 +14,160 @@ namespace HardwareShop.Controllers
     [Authorize(Roles = "Client")]
     public class ComandaController : Controller
     {
-        ApplicationDbContext context = new ApplicationDbContext();
-        // GET: Comanda
+        private readonly ApplicationDbContext context;
 
-        public ActionResult DetaliiComanda(float pret)
+        public ComandaController(ApplicationDbContext context)
+        {
+            this.context = context;
+        }
+
+        // Afișează pagina inițială de comandă, cu produsele din coș și prețul total
+        public async Task<ActionResult> DetaliiComanda(float pret)
         {
             var userId = User.Identity.GetUserId();
-            List<CosCumparaturi> listaProduse = context.cos.Include(c => c.Produs).Where(c => c.ClientId == userId).ToList();
+
+            // Se încarcă produsele din coșul utilizatorului
+            List<CosCumparaturi> listaProduse = await context.cos
+                .Include(c => c.Produs)
+                .Where(c => c.ClientId == userId)
+                .ToListAsync();
+
+            // Se stochează în sesiune lista produselor pentru utilizare ulterioară
             Session["produseCos"] = listaProduse;
-            Comanda comanda = new Comanda();
-            comanda.PretComanda = (float)pret;
+
+            // Se inițializează comanda cu prețul total
+            Comanda comanda = new Comanda { PretComanda = pret };
+
             var viewModel = new DetaliiComandaViewModel()
             {
                 comanda = comanda,
-                etapa = "Facturare"
+                etapa = "Facturare" // prima etapă a comenzii
             };
+
             return View(viewModel);
         }
-        public ActionResult FinalizareComanda(string etapa, string detaliiComandaSerializat, string eroare)
-        {
-            if (eroare != null)
-            {
-                var detaliiComanda = JsonConvert.DeserializeObject<DetaliiComandaViewModel>(detaliiComandaSerializat);
-                detaliiComanda.etapa = etapa;
-                return View("DetaliiComanda", detaliiComanda);
-            }
-            var viewModel = new DetaliiComandaViewModel()
-            {
-                etapa = etapa
-            };
-            TempData["eroarePlata"] = null;
-            return View("DetaliiComanda", viewModel);
-        }
+
+        // Preia datele din formularul de facturare/plată și le validează
         [HttpPost]
         public ActionResult DetaliiComanda(string etapa, Comanda comanda, DetaliiComandaViewModel detaliiComanda, string eroare)
         {
-            if (detaliiComanda.comanda == null || eroare != null)
+            // Se verifică validitatea datelor și dacă există erori de plată
+            if (!ModelState.IsValid || detaliiComanda.comanda == null || eroare != null)
             {
                 detaliiComanda.comanda = comanda;
-                detaliiComanda.card = new Card();
+                detaliiComanda.card = new Card(); // reinitializăm cardul pentru view
                 detaliiComanda.etapa = etapa;
-                return View(detaliiComanda);
+                return View(detaliiComanda); // se revine în view cu erorile
             }
+
+            // Se serializează datele comenzii și se salvează temporar
             var serializedData = JsonConvert.SerializeObject(detaliiComanda);
-            return RedirectToAction("Salvare", "Comanda", new { serializedData });
+            TempData["detaliiComanda"] = serializedData;
+
+            return RedirectToAction("Salvare", "Comanda");
         }
-        public ActionResult Salvare(string serializedData)
+
+        // Salvează efectiv comanda în baza de date
+        public async Task<ActionResult> Salvare()
         {
-            var detaliiComanda = JsonConvert.DeserializeObject<DetaliiComandaViewModel>(serializedData);
+            // Se recuperează datele comenzii din TempData
+            var detaliiComanda = JsonConvert.DeserializeObject<DetaliiComandaViewModel>((string)TempData["detaliiComanda"]);
             if (detaliiComanda == null || detaliiComanda.comanda == null || detaliiComanda.card == null)
             {
                 return Content("Invalid data.");
             }
 
+            // Se recuperează lista produselor din coș (din sesiune)
             var listaProduse = Session["produseCos"] as List<CosCumparaturi>;
-            foreach (var item in listaProduse)
+            if (listaProduse == null || !listaProduse.Any())
             {
-                var cos = context.cos.Find(item.Id);
-                context.cos.Remove(cos);
-                var produsComandat = new ProdusComandat
-                {
-                    ProdusId = item.ProdusId,
-                    CategorieId = item.Produs.CategorieId,
-                    Cantitate = item.NrBuc
-                };
-                produsComandat.ComandaId = detaliiComanda.comanda.Id;
-           
-                context.produseComandate.Add(produsComandat);
+                return Content("Cosul de cumpărături este gol sau a expirat sesiunea.");
             }
 
+            // Verificare card: dacă există și dacă are sold suficient
             var nrCard = detaliiComanda.card.NrCard;
             var numeDetinator = detaliiComanda.card.NumeDetinator;
             var cvc = detaliiComanda.card.CVC;
 
-            var cardDB = context.carduri
-                                  .SingleOrDefault(c => c.NrCard == nrCard
-                                                     && c.NumeDetinator == numeDetinator
-                                                     && c.CVC == cvc);
-
-            detaliiComanda.comanda.PretComanda = detaliiComanda.comanda.PretComanda;
+            var cardDB = await context.carduri
+                .SingleOrDefaultAsync(c => c.NrCard == nrCard
+                    && c.NumeDetinator == numeDetinator
+                    && c.CVC == cvc);
 
             if (cardDB == null)
             {
-                var detaliiComandaSerializat = JsonConvert.SerializeObject(detaliiComanda);
+                // Cardul nu există — redirectare înapoi cu eroare
                 TempData["eroarePlata"] = "Card inexistent";
-                return RedirectToAction("FinalizareComanda", new { detaliiComandaSerializat, etapa = "Plata", eroare = "da" });
+                TempData["detaliiComanda"] = JsonConvert.SerializeObject(detaliiComanda);
+                return RedirectToAction("FinalizareComanda", new { etapa = "Plata", eroare = "da" });
             }
             else if (cardDB.Sold < detaliiComanda.comanda.PretComanda)
             {
-                var detaliiComandaSerializat = JsonConvert.SerializeObject(detaliiComanda);
+                // Sold insuficient — redirectare înapoi cu eroare
                 TempData["eroarePlata"] = "Sold insuficient";
-                return RedirectToAction("FinalizareComanda", new { detaliiComandaSerializat, etapa = "Plata", eroare = "da" });
+                TempData["detaliiComanda"] = JsonConvert.SerializeObject(detaliiComanda);
+                return RedirectToAction("FinalizareComanda", new { etapa = "Plata", eroare = "da" });
             }
-            else
+
+            // Se retrage suma de pe card
+            cardDB.Sold -= detaliiComanda.comanda.PretComanda;
+
+            // Se adaugă factura și adresa în baza de date
+            var factura = detaliiComanda.comanda.Factura;
+            var adresa = detaliiComanda.comanda.Adresa;
+            context.factura.Add(factura);
+            context.adrese.Add(adresa);
+            await context.SaveChangesAsync(); // pentru a obține ID-urile generate
+
+            // Se completează comanda cu referințele către factura și adresa create
+            detaliiComanda.comanda.FacturaId = factura.Id;
+            detaliiComanda.comanda.AdresaId = adresa.Id;
+            detaliiComanda.comanda.ClientId = User.Identity.GetUserId();
+
+            context.comanda.Add(detaliiComanda.comanda);
+            await context.SaveChangesAsync(); // salvăm comanda
+
+            // Se adaugă produsele comandate și se șterg din coș
+            foreach (var item in listaProduse)
             {
-                cardDB.Sold -= detaliiComanda.comanda.PretComanda;
-                var factura = detaliiComanda.comanda.Factura;
-                var adresa = detaliiComanda.comanda.Adresa;
+                var produsComandat = new ProdusComandat
+                {
+                    ProdusId = item.ProdusId,
+                    CategorieId = item.Produs.CategorieId,
+                    Cantitate = item.NrBuc,
+                    ComandaId = detaliiComanda.comanda.Id
+                };
+                context.produseComandate.Add(produsComandat);
 
-                detaliiComanda.comanda.AdresaId = adresa.Id;
-                detaliiComanda.comanda.FacturaId = factura.Id;
-                string userId = User.Identity.GetUserId();
-                var user = context.Users.Find(userId);
-                detaliiComanda.comanda.ClientId = user.Id;
-
-                context.factura.Add(factura);
-                context.comanda.Add(detaliiComanda.comanda);
-                context.SaveChanges();
-
-                return RedirectToAction("FinalizareComanda", "Comanda", new { etapa = "Finalizare" });
+                // Se elimină produsul din coș
+                var cos = await context.cos.FindAsync(item.Id);
+                if (cos != null)
+                    context.cos.Remove(cos);
             }
+
+            await context.SaveChangesAsync(); // salvăm modificările finale
+
+            return RedirectToAction("FinalizareComanda", "Comanda", new { etapa = "Finalizare" });
         }
 
+        // Afișează pagina finală (sau revine la plata cu eroare)
+        public ActionResult FinalizareComanda(string etapa, string eroare)
+        {
+            if (eroare != null)
+            {
+                // Se reîncarcă datele comenzii și se revine în view cu eroare
+                var detaliiComanda = JsonConvert.DeserializeObject<DetaliiComandaViewModel>((string)TempData["detaliiComanda"]);
+                detaliiComanda.etapa = etapa;
+                return View("DetaliiComanda", detaliiComanda);
+            }
 
+            var viewModel = new DetaliiComandaViewModel()
+            {
+                etapa = etapa
+            };
+
+            TempData["eroarePlata"] = null;
+            return View("DetaliiComanda", viewModel);
+        }
     }
 }
