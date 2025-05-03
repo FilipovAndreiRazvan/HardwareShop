@@ -86,7 +86,11 @@ namespace HardwareShop.Controllers
             await context.SaveChangesAsync();
 
             // Mesaj temporar pentru confirmare
-            TempData["Mesaj"] = "ProdusAdauagatCos";
+            if(viewName != "cosCumparaturi")
+            {
+                TempData["Mesaj"] = "ProdusAdauagatCos";
+            }
+           
 
             // Redirect în funcție de sursa de unde a fost adăugat produsul
             if (viewName == "cosCumparaturi")

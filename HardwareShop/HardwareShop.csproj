@@ -26,6 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <LangVersion>11</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,6 +47,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -191,11 +195,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ListaFavoriteController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Helpers\MetodeExterne.cs" />
     <Compile Include="Controllers\ServiciiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="MappingProfiles\MyProfile.cs" />
     <Compile Include="Migrations\202504042221265_InitialModel.cs" />
     <Compile Include="Migrations\202504042221265_InitialModel.Designer.cs">
       <DependentUpon>202504042221265_InitialModel.cs</DependentUpon>
@@ -238,6 +242,8 @@
     <Compile Include="Models\Factura.cs" />
     <Compile Include="Models\ProduseComandate.cs" />
     <Compile Include="Models\StatusProdus.cs" />
+    <Compile Include="Service\GestionareModeleService.cs" />
+    <Compile Include="Service\GestionareProduseService.cs" />
     <Compile Include="ViewModels\AdaugaProdusViewModel.cs" />
     <Compile Include="Models\AdresaLivrare.cs" />
     <Compile Include="Models\BrandUser.cs" />

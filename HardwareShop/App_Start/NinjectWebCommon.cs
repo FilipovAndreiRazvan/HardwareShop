@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Web;
+using System.Linq;
+using AutoMapper;
+using HardwareShop.MappingProfiles;
 using HardwareShop.Models;
 using HardwareShop.ViewModels;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
@@ -56,8 +59,15 @@ namespace HardwareShop.App_Start
             // Aici faci legăturile (Binding-urile)
 
             kernel.Bind<ApplicationDbContext>().ToSelf().InRequestScope();
-            kernel.Bind<MetodeExterne>().ToSelf().InRequestScope();
             // Dacă ai și alte servicii, le legi aici!
+            kernel.Bind<IMapper>().ToMethod(ctx =>
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.AddProfile<MyProfile>();
+                });
+                return config.CreateMapper();
+            });
         }
     }
 }

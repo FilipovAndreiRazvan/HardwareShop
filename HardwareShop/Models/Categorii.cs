@@ -9,5 +9,12 @@ namespace HardwareShop.Models
     {
         public byte Id { get; set; }
         public string Nume { get; set; }
+
+        public enum Categorii
+        {
+            Carcase,
+            PlaciDeBaza
+        }
     }
+    
 }

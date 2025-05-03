@@ -119,7 +119,7 @@
                             {
                                 <p class="stoc">Stoc: @Model.Produse[i].Stoc buc</p>
                                 <div class="actiune">
-                                    <a href="@Url.Action("Sterge","Servicii",new { id = Model.Produse[i].IdProdus })" class="adaugaProdus">Sterge</a>
+                                    <a href="@Url.Action("Sterge","Servicii",new { id = Model.Produse[i].IdProdus ,categorie = Model.Produse[i].Categorie.Nume})" class="adaugaProdus">Sterge</a>
                                     <a href="@Url.Action("ViewAdauga", "Servicii", new { categorie = Model.Produse[i].Categorie.Nume, idProdus = Model.Produse[i].IdProdus })" class="adaugaProdus">Modifica</a>
                                 </div>
 
