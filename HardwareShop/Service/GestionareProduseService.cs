@@ -31,8 +31,6 @@ namespace HardwareShop.Service
                 throw new HttpException(404, "Produs inexistent!");
             }
 
-            var categorie = produs.Categorie.Nume;
-
             await StergereProdusCos(_context, produs);
             await StergereProdusFavorite(_context, produs);
             _context.produse.Remove(produs);
@@ -340,26 +338,32 @@ namespace HardwareShop.Service
             }
             else if (model.Procesor != null)
             {
+                model.Produs.ImgLink = "Imagini/Procesoare/" + model.Produs.ImgLink;
                 await SalvareProdusSpecific(model.Procesor, brand, model);
             }
             else if (model.Pasta != null)
             {
+                model.Produs.ImgLink = "Imagini/PasteProcesor/" + model.Produs.ImgLink;
                 await SalvareProdusSpecific(model.Pasta, brand, model);
             }
             else if (model.PlacaVideo != null)
             {
+                model.Produs.ImgLink = "Imagini/PlaciVideo/" + model.Produs.ImgLink;
                 await SalvareProdusSpecific(model.PlacaVideo, brand, model);
             }
             else if (model.PlacutaRAM != null)
             {
+                model.Produs.ImgLink = "Imagini/PlacuteRAM/" + model.Produs.ImgLink;
                 await SalvareProdusSpecific(model.PlacutaRAM, brand, model);
             }
             else if (model.Sursa != null)
             {
+                model.Produs.ImgLink = "Imagini/Surse/" + model.Produs.ImgLink;
                 await SalvareProdusSpecific(model.Sursa, brand, model);
             }
             else if (model.Stocare != null)
             {
+                model.Produs.ImgLink = "Imagini/UnitatiDeStocare/" + model.Produs.ImgLink;
                 await SalvareProdusSpecific(model.Stocare, brand, model);
             }
         }
