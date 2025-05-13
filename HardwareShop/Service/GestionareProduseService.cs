@@ -329,6 +329,7 @@ namespace HardwareShop.Service
             var produs = model.Produs;
             if (model.PlacaDeBaza != null)
             {
+                model.Produs.ImgLink = "Imagini/PlaciDeBaza/" + model.Produs.ImgLink;
                 await SalvareProdusSpecific(model.PlacaDeBaza, brand, model);
             }
             else if (model.Carcasa != null)
@@ -382,6 +383,7 @@ namespace HardwareShop.Service
                 product.Produs = model.Produs;
                 product.Produs.BrandId = brand.Id;
                 _context.produse.Add(model.Produs);
+                await _gestionareModeleService.AdaugareModel(produsSpecific);
             }
         }
 

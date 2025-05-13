@@ -19,6 +19,42 @@ namespace HardwareShop.Service
             _context = context;
             _mapper = mapper;
         }
+
+        // Adaugam noul produs in baza de date
+        public async Task AdaugareModel(object produsSpecific)
+        {
+            
+            switch (produsSpecific)
+            {
+                case Motherboard:
+                    _context.placiDeBaza.Add((Motherboard)produsSpecific);
+                    break;
+                case Carcasa:
+                    _context.carcase.Add((Carcasa)produsSpecific);
+                    break;
+                case GPU:
+                    _context.placiVideo.Add((GPU)produsSpecific);
+                    break;
+                case PlacutaRAM:
+                    _context.placuteRAM.Add((PlacutaRAM)produsSpecific);
+                    break;
+                case CPU:
+                    _context.procesoare.Add((CPU)produsSpecific);
+                    break;
+                case PSU:
+                    _context.surse.Add((PSU)produsSpecific);
+                    break;
+                case UnitatiDeStocare:
+                    _context.stocare.Add((UnitatiDeStocare)produsSpecific);
+                    break;
+                case PastaCPU:
+                    _context.pasteProcesor.Add((PastaCPU)produsSpecific);
+                    break;
+                default: throw new HttpException(404, "Categorie inexistenta!");
+                
+            }
+            await _context.SaveChangesAsync();
+        }
         public async Task<AdaugaProdusViewModel> CompletareModel( string categorie, int? idProdus)
         {
             AdaugaProdusViewModel model = new AdaugaProdusViewModel();
