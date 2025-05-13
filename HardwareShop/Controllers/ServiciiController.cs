@@ -16,7 +16,6 @@ public class ServiciiController : Controller
     private readonly GestionareProduseService _gestionareProduse;
     private readonly GestionareModeleService _gestionareModele;
 
-    //dependency injection pentru context si clasa ajutatoare metodeExterne
     public ServiciiController(ApplicationDbContext context,GestionareProduseService gestionareProduse, GestionareModeleService gestionareModele)
     {
         _context = context;
